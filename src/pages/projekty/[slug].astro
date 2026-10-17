@@ -1,0 +1,67 @@
+---
+import { getCollection, render, type CollectionEntry } from 'astro:content';
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import PageIntro from '../../components/PageIntro.astro';
+import Icon from '../../components/Icon.astro';
+
+export async function getStaticPaths() {
+  const projects = await getCollection('projects', ({ data }) => data.published);
+  return projects.map((project) => ({
+    params: { slug: project.id },
+    props: { project },
+  }));
+}
+
+interface Props {
+  project: CollectionEntry<'projects'>;
+}
+
+const { project } = Astro.props;
+const { Content } = await render(project);
+const statusLabels = {
+  planowany: 'Planowany',
+  'w-trakcie': 'W trakcie',
+  zakonczony: 'Zakończony',
+};
+const date = new Intl.DateTimeFormat('pl-PL', { dateStyle: 'long', timeZone: 'UTC' }).format(project.data.date);
+---
+
+<BaseLayout title={project.data.title} description={project.data.description}>
+  <main id="main-content">
+    <PageIntro eyebrow="Projekty SPEKTRUM" title={project.data.title} description={project.data.description} />
+    <article class="section detail-section">
+      <div class="container detail-container">
+        <a class="text-link back-link" href="/projekty/"><Icon name="arrow-right" /> Wszystkie projekty</a>
+        <div class="project-meta">
+          <span class="tag">{statusLabels[project.data.status]}</span>
+          <time datetime={project.data.date.toISOString()}>{date}</time>
+        </div>
+        {project.data.image && <img class="detail-image" src={project.data.image} alt={project.data.imageAlt!} width="1200" height="750" />}
+        <div class="prose"><Content /></div>
+        {project.data.tags.length > 0 && (
+          <ul class="tags" aria-label="Tematy projektu">
+            {project.data.tags.map((tag) => <li class="tag">{tag}</li>)}
+          </ul>
+        )}
+        <aside class="panel project-cta">
+          <h2>Chcesz tworzyć razem z nami?</h2>
+          <p class="muted">Sprawdź, jak dołączyć do Koła Naukowego SPEKTRUM.</p>
+          <a class="text-link" href="/dolacz/">Dołącz do koła <Icon name="arrow-up-right" /></a>
+        </aside>
+      </div>
+    </article>
+  </main>
+</BaseLayout>
+
+<style>
+  .detail-section { padding-top: 0; }
+  .detail-container { max-width: 58rem; }
+  .back-link { margin-bottom: 2rem; }
+  .back-link :global(svg) { transform: rotate(180deg); }
+  .project-meta { display: flex; flex-wrap: wrap; align-items: center; gap: 1rem; margin-bottom: 2rem; }
+  .project-meta time { color: var(--color-muted, #a6a9b6); font-size: .9rem; }
+  .detail-image { display: block; width: 100%; height: auto; border-radius: 1rem; margin-bottom: 2.5rem; }
+  .tags { display: flex; flex-wrap: wrap; gap: .5rem; margin: 2rem 0 0; padding: 0; list-style: none; }
+  .project-cta { padding: clamp(1.5rem, 4vw, 2.5rem); margin-top: 3rem; }
+  .project-cta h2 { margin-top: 0; font-size: 1.5rem; }
+</style>

@@ -1,0 +1,190 @@
+---
+import { getCollection } from 'astro:content';
+import BaseLayout from '../layouts/BaseLayout.astro';
+import PageIntro from '../components/PageIntro.astro';
+import Icon from '../components/Icon.astro';
+import PulseExplorer from '../components/PulseExplorer.astro';
+
+const projects = (await getCollection('projects', ({ data }) => data.published))
+  .filter(({ data }) => data.tags.some((tag) => /laser|foton|femto|piko/i.test(tag)))
+  .sort((a, b) => b.data.date.getTime() - a.data.date.getTime())
+  .slice(0, 3);
+
+const concepts = [
+  { number: '01', label: 'Czas trwania', symbol: 'τ', unit: 'fs · ps', description: 'Jak długo trwa impuls? Wartość FWHM określa jego szerokość w połowie maksymalnego natężenia.' },
+  { number: '02', label: 'Energia impulsu', symbol: 'E', unit: 'J', description: 'Ile energii niesie pojedynczy impuls? Jest równa polu pod wykresem mocy chwilowej w funkcji czasu.' },
+  { number: '03', label: 'Moc średnia', symbol: 'Pśr', unit: 'W', description: 'Dla jednakowych impulsów to energia jednego impulsu pomnożona przez częstotliwość ich powtarzania.' },
+  { number: '04', label: 'Moc szczytowa', symbol: 'Pmax', unit: 'W', description: 'Największa moc w obrębie impulsu. Jej skala to energia podzielona przez czas trwania; dokładna wartość zależy od kształtu impulsu.' },
+];
+const applications = [
+  { icon: 'laser', title: 'Mikroobróbka materiałów', description: 'Precyzyjne oddziaływanie na bardzo małe obszary. Krótki czas dostarczania energii może ograniczać rozprzestrzenianie ciepła; efekt zależy od materiału i warunków procesu.' },
+  { icon: 'wave', title: 'Spektroskopia czasowa', description: 'Badanie szybkich zmian w materii. Metody pompa–sonda wykorzystują kontrolowane opóźnienie między impulsami do śledzenia dynamiki zjawisk.' },
+  { icon: 'optics', title: 'Optyka nieliniowa', description: 'Duże natężenie szczytowe umożliwia badanie zjawisk, w których odpowiedź materiału nie rośnie liniowo z natężeniem padającego światła.' },
+  { icon: 'spark', title: 'Fotonika i metrologia', description: 'Ultrakrótkie impulsy są narzędziem w pomiarach czasu i odległości oraz w rozwoju zaawansowanych źródeł światła.' },
+];
+---
+
+<BaseLayout title="Laser femtosekundowy" description="Poznaj ultrakrótkie impulsy, model obwiedni gaussowskiej i system femto- oraz pikosekundowy w Pracowni Urządzeń Fotonicznych ZUT.">
+  <main id="main-content">
+    <PageIntro eyebrow="ŚWIATŁO W ULTRAKRÓTKIEJ SKALI" title="Laser femtosekundowy." description="Gdy czas mierzymy w biliardowych częściach sekundy, światło otwiera zupełnie nową skalę pytań. Poznaj technologię, z którą spotykamy się w pracowni." />
+
+    <section class="time-section" aria-labelledby="time-heading">
+      <div class="container time-grid">
+        <div class="time-copy">
+          <p class="eyebrow">MNIEJ CZASU. WIĘCEJ PYTAŃ.</p>
+          <h2 id="time-heading">Jedna sekunda.<br />Biliard możliwości podziału.</h2>
+          <p class="muted">Femtosekunda to <strong>10<sup>−15</sup> sekundy</strong>. Laser femtosekundowy emituje światło w impulsach o czasie trwania w tej niezwykle krótkiej skali.</p>
+          <p class="muted">W Pracowni Urządzeń Fotonicznych ZUT studentom udostępniany jest system femto- i pikosekundowy. To zaplecze do poznawania fizyki ultrakrótkich impulsów i metod pracy z aparaturą fotoniczną.</p>
+          <a class="text-link" href="#model-impulsu">Poznaj kształt impulsu <Icon name="arrow-right" size={17} /></a>
+        </div>
+        <div class="time-art" aria-label="Jedna femtosekunda to 10 do potęgi minus piętnastej sekundy">
+          <div class="art-heading"><span>JEDNOSTKA CZASU</span><Icon name="spark" size={17} /></div>
+          <div class="time-number" aria-hidden="true">10<sup>−15</sup><span>s</span></div>
+          <p class="time-name">femtosekunda</p>
+          <div class="art-line" aria-hidden="true"><span></span></div>
+          <div class="time-comparison"><div><span>1 fs</span><strong>10<sup>−15</sup> s</strong></div><span class="comparison-separator" aria-hidden="true"></span><div><span>1 ps</span><strong>10<sup>−12</sup> s</strong></div></div>
+          <p class="comparison-note">1 pikosekunda = 1000 femtosekund</p>
+        </div>
+      </div>
+    </section>
+
+    <section class="section explorer-section" id="model-impulsu" aria-label="Interaktywny model impulsu">
+      <div class="container"><PulseExplorer /></div>
+    </section>
+
+    <section class="section" aria-labelledby="concepts-heading">
+      <div class="container">
+        <div class="section-lead">
+          <div><p class="eyebrow">CZTERY RÓŻNE WIELKOŚCI</p><h2 id="concepts-heading" class="section-heading">Krótko. Nie znaczy mało.</h2></div>
+          <p class="muted">Czas trwania, energia i moc opisują różne cechy impulsu. Dopiero razem pozwalają zrozumieć jego oddziaływanie.</p>
+        </div>
+        <div class="concept-grid">
+          {concepts.map((concept) => (
+            <article class="concept-card">
+              <div class="concept-top"><span>{concept.number}</span><span>{concept.unit}</span></div>
+              <div class="concept-symbol" aria-hidden="true">{concept.symbol}</div>
+              <h3>{concept.label}</h3><p>{concept.description}</p>
+            </article>
+          ))}
+        </div>
+        <div class="concept-takeaway"><Icon name="wave" size={24} /><p><strong>Przy tym samym kształcie impulsu ta sama energia w krótszym czasie daje większą moc szczytową.</strong> Moc średnia zależy również od liczby impulsów emitowanych w ciągu sekundy.</p></div>
+      </div>
+    </section>
+
+    <section class="section applications-section" aria-labelledby="applications-heading">
+      <div class="container applications-grid">
+        <div class="applications-intro"><p class="eyebrow">OD FIZYKI DO ZASTOSOWAŃ</p><h2 id="applications-heading" class="section-heading">Co umożliwia<br /> ta technologia?</h2><p class="muted">Ultrakrótkie impulsy wykorzystuje się w nauce i przemyśle wszędzie tam, gdzie liczą się czas, skala i precyzja.</p><p class="scope-note">To ogólne obszary zastosowań technologii. Nie stanowią listy projektów koła ani potwierdzonych możliwości naszego stanowiska.</p></div>
+        <div class="application-list">
+          {applications.map((application, index) => (
+            <article class="application"><span class="application-number">0{index + 1}</span><div class="application-icon"><Icon name={application.icon} size={23} /></div><div><h3>{application.title}</h3><p>{application.description}</p></div></article>
+          ))}
+        </div>
+      </div>
+    </section>
+
+    <section class="section" id="stanowisko" aria-labelledby="station-heading">
+      <div class="container">
+        <div class="section-lead"><div><p class="eyebrow">NASZE ZAPLECZE</p><h2 id="station-heading" class="section-heading">Od modelu do pracowni.</h2></div><p class="muted">System impulsów femto- i pikosekundowych jest dostępny w Pracowni Urządzeń Fotonicznych ZUT.</p></div>
+        <div class="station-grid">
+          <figure class="station-photo"><div class="station-photo-placeholder"><span class="photo-overline">PRACOWNIA URZĄDZEŃ FOTONICZNYCH</span><div class="photo-reticle" aria-hidden="true"><Icon name="optics" size={52} /></div><span class="photo-status">Zdjęcie stanowiska w przygotowaniu</span></div><figcaption>Tu pojawi się autentyczne zdjęcie systemu po przygotowaniu materiału do publikacji.</figcaption></figure>
+          <div class="station-data"><div class="data-heading"><h3>Karta stanowiska</h3><span class="tag">Do uzupełnienia</span></div><dl><div><dt>Rodzaj systemu</dt><dd>Femto- i pikosekundowy</dd></div><div><dt>Model i producent</dt><dd class="unconfirmed">Do potwierdzenia</dd></div><div><dt>Długość fali</dt><dd class="unconfirmed">Do potwierdzenia</dd></div><div><dt>Czas trwania impulsu</dt><dd class="unconfirmed">Do potwierdzenia</dd></div><div><dt>Energia i częstotliwość impulsów</dt><dd class="unconfirmed">Do potwierdzenia</dd></div><div><dt>Moc średnia</dt><dd class="unconfirmed">Do potwierdzenia</dd></div></dl><p class="station-note">Parametry opublikujemy po ich weryfikacji. Wartości w modelu interaktywnym są wyłącznie przykładami edukacyjnymi.</p><a class="text-link" href="/laboratorium/">Poznaj laboratorium <Icon name="arrow-up-right" size={17} /></a></div>
+        </div>
+      </div>
+    </section>
+
+    <section class="section related-section" aria-labelledby="related-heading">
+      <div class="container">
+        <div class="section-lead"><div><p class="eyebrow">Z TEORII W DZIAŁANIE</p><h2 id="related-heading" class="section-heading">Projekty fotoniczne.</h2></div><a class="text-link" href="/projekty/">Wszystkie projekty <Icon name="arrow-up-right" size={17} /></a></div>
+        {projects.length ? <div class="card-grid">{projects.map((project) => <article class="panel related-card"><span class="tag">{project.data.tags[0] ?? 'Fotonika'}</span><h3><a href={`/projekty/${project.id}/`}>{project.data.title}</a></h3><p class="muted">{project.data.description}</p><a class="text-link" href={`/projekty/${project.id}/`}>Poznaj projekt <Icon name="arrow-right" size={16} /><span class="sr-only">: {project.data.title}</span></a></article>)}</div> : <div class="project-empty"><div class="empty-icon" aria-hidden="true"><Icon name="network" size={30} /></div><div><h3>Miejsce na kolejne odkrycia.</h3><p>Opisy projektów związanych z fotoniką pojawią się tu po ich przygotowaniu i weryfikacji. Chcesz współtworzyć tę część SPEKTRUM?</p></div><a class="button button-secondary" href="/dolacz/">Dołącz do koła <Icon name="arrow-up-right" size={17} /></a></div>}
+      </div>
+    </section>
+
+    <section class="section laser-cta" aria-labelledby="laser-cta-heading"><div class="container laser-cta-content"><p class="eyebrow">CIEKAWOŚĆ TO DOBRY POCZĄTEK</p><h2 id="laser-cta-heading">Twoje pytanie może<br />być kolejnym impulsem.</h2><p>Interesuje Cię światło, pomiary albo praca eksperymentalna? Poznaj koło i porozmawiaj z nami o możliwościach udziału.</p><a class="button button-primary" href="/dolacz/">Zacznij od rozmowy <Icon name="arrow-right" size={18} /></a></div></section>
+  </main>
+</BaseLayout>
+
+<style>
+  .time-section { padding: 1.5rem 0 2rem; }
+  .time-grid { display: grid; grid-template-columns: 1fr 1fr; gap: clamp(2rem, 7vw, 7rem); align-items: center; }
+  .time-copy h2 { margin: 1rem 0 1.5rem; font-size: clamp(1.8rem, 3.1vw, 3rem); line-height: 1.16; letter-spacing: -.045em; font-weight: 500; }
+  .time-copy p.muted { font-size: .95rem; line-height: 1.9; max-width: 33rem; }
+  .time-copy strong { color: #d4dfed; font-weight: 500; }
+  .time-copy .text-link { margin-top: 1.2rem; }
+  .time-art { min-height: 23rem; border: 1px solid rgba(156, 173, 215, .15); border-radius: 1.1rem; padding: 1.5rem 2rem; background: radial-gradient(ellipse at 65% 25%, rgba(133, 102, 212, .15), transparent 62%), repeating-linear-gradient(0deg, transparent, transparent 39px, rgba(147, 172, 209, .04) 40px), #0a1426; position: relative; overflow: hidden; }
+  .art-heading { display: flex; justify-content: space-between; align-items: center; color: #9aabc4; font-size: .62rem; letter-spacing: .15em; }
+  .art-heading :global(svg) { color: #9c8ee0; }
+  .time-number { font-size: clamp(5rem, 9vw, 8rem); font-weight: 400; line-height: 1; letter-spacing: -.09em; padding-top: 2.5rem; color: #f1f0fb; }
+  .time-number sup { display: inline-block; font-size: .49em; vertical-align: top; padding-top: .08em; letter-spacing: -.06em; color: #b6a3ff; }
+  .time-number > span { font-size: .3em; margin-left: .55em; letter-spacing: 0; color: #98abc4; }
+  .time-name { color: #aebcd0; font-size: .85rem; letter-spacing: .08em; margin: .4rem 0 1.75rem; }
+  .art-line { height: 1px; position: relative; margin-block: 1.5rem; background: linear-gradient(90deg, transparent, #70d8e3, #a88bf0, transparent); }
+  .art-line > span { position: absolute; width: .45rem; height: .45rem; background: #bfc6fd; border-radius: 50%; left: 46%; top: 0; transform: translateY(-50%); box-shadow: 0 0 20px 4px rgba(141, 163, 255, .4); }
+  .time-comparison { display: flex; align-items: center; gap: 2rem; }
+  .time-comparison > div { display: flex; align-items: baseline; gap: .75rem; }
+  .time-comparison > div > span { color: #8396b2; font: .75rem monospace; }
+  .time-comparison strong { color: #dce4f3; font-size: 1.1rem; font-weight: 400; }
+  .time-comparison sup { font-size: .65em; }
+  .comparison-separator { width: 1px; align-self: stretch; background: rgba(151, 169, 209, .15); }
+  .comparison-note { font-size: .67rem; color: #8699b4; margin: 1rem 0 0; }
+  .explorer-section { padding-top: 3rem; }
+  .section-lead { display: flex; align-items: end; justify-content: space-between; gap: 3rem; margin-bottom: 2.5rem; }
+  .section-lead > .muted { max-width: 27rem; font-size: .93rem; line-height: 1.8; margin-bottom: .3rem; }
+  .section-lead .section-heading { margin-bottom: 0; }
+  .section-lead > .text-link { flex-shrink: 0; }
+  .concept-grid { display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); border: 1px solid rgba(151, 169, 209, .14); border-radius: 1rem; overflow: hidden; }
+  .concept-card { padding: 1.7rem 1.5rem; background: linear-gradient(160deg, rgba(25, 40, 64, .38), rgba(13, 24, 43, .2)); }
+  .concept-card + .concept-card { border-left: 1px solid rgba(151, 169, 209, .14); }
+  .concept-top { display: flex; justify-content: space-between; color: #8396b1; font: .66rem monospace; }
+  .concept-top > span:last-child { color: #a69acb; }
+  .concept-symbol { display: flex; align-items: center; height: 7rem; color: #b9abed; font-size: 2.9rem; font-weight: 400; letter-spacing: -.07em; }
+  .concept-card h3 { font-size: 1.04rem; font-weight: 500; margin: 0 0 .7rem; }
+  .concept-card p { color: #94a5bd; font-size: .79rem; line-height: 1.85; margin: 0; }
+  .concept-takeaway { display: flex; gap: 1rem; align-items: center; padding: 1.25rem 1.5rem; border-bottom: 1px solid rgba(151, 169, 209, .12); }
+  .concept-takeaway :global(svg) { color: #65cddc; flex-shrink: 0; }
+  .concept-takeaway p { font-size: .8rem; line-height: 1.85; color: #9bacc3; margin: 0; }
+  .concept-takeaway strong { font-weight: 500; color: #d6e0ef; }
+  .applications-section { background: rgba(22, 34, 55, .3); border-block: 1px solid rgba(151, 169, 209, .1); }
+  .applications-grid { display: grid; grid-template-columns: .85fr 1.15fr; gap: clamp(2rem, 7vw, 7rem); }
+  .applications-intro .muted { max-width: 26rem; line-height: 1.85; font-size: .94rem; }
+  .scope-note { max-width: 25rem; padding-left: 1rem; border-left: 1px solid #655b8b; margin-top: 2rem; color: #8f9fb7; font-size: .74rem; line-height: 1.9; }
+  .application { display: grid; grid-template-columns: 1.2rem 2.8rem 1fr; gap: 1rem; padding: 1.6rem 0; border-top: 1px solid rgba(151, 169, 209, .15); }
+  .application:first-child { padding-top: .3rem; border-top: 0; }
+  .application-number { color: #7689a2; font: .64rem monospace; padding-top: .6rem; }
+  .application-icon { color: #9d8cd6; width: 2.8rem; height: 2.8rem; border: 1px solid rgba(159, 140, 216, .16); border-radius: .7rem; display: grid; place-items: center; background: rgba(158, 140, 216, .04); }
+  .application h3 { font-size: 1.05rem; margin: .3rem 0 .65rem; font-weight: 500; }
+  .application p { color: #95a6bd; font-size: .82rem; line-height: 1.85; margin: 0; }
+  .station-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 3rem; }
+  .station-photo { margin: 0; }
+  .station-photo-placeholder { min-height: 25rem; height: calc(100% - 3.5rem); position: relative; display: flex; align-items: center; justify-content: center; padding: 2rem; border: 1px dashed rgba(151, 169, 209, .24); border-radius: .9rem; background: radial-gradient(ellipse at center, rgba(77, 130, 155, .07), transparent 65%), rgba(16, 28, 45, .4); }
+  .photo-overline { position: absolute; top: 1.5rem; left: 1.5rem; color: #8396ad; font-size: .57rem; letter-spacing: .12em; }
+  .photo-status { position: absolute; bottom: 1.7rem; color: #8e9fb5; font-size: .76rem; text-align: center; padding: 0 1rem; }
+  .photo-reticle { width: 8rem; height: 8rem; border: 1px solid rgba(115, 166, 183, .17); border-radius: 50%; display: grid; place-items: center; color: #688a9b; position: relative; }
+  .photo-reticle::before { content: ''; position: absolute; inset: -1.4rem; border: 1px solid rgba(115, 166, 183, .07); border-radius: 50%; }
+  .station-photo figcaption { font-size: .7rem; line-height: 1.8; color: #8396af; padding-top: 1rem; }
+  .data-heading { display: flex; justify-content: space-between; align-items: center; gap: 1rem; padding-bottom: 1.25rem; }
+  .data-heading h3 { font-size: 1.2rem; font-weight: 500; margin: 0; }
+  .data-heading .tag { color: #b1a7cf; font-size: .62rem; }
+  .station-data dl { margin: 0; }
+  .station-data dl > div { padding: 1rem 0; border-top: 1px solid rgba(151, 169, 209, .14); display: flex; justify-content: space-between; align-items: baseline; gap: 1.2rem; font-size: .78rem; }
+  .station-data dt { color: #94a7c0; }
+  .station-data dd { color: #d0dbe9; margin: 0; text-align: right; }
+  .station-data dd.unconfirmed { font-size: .72rem; color: #a89cbd; }
+  .station-note { font-size: .71rem; line-height: 1.9; color: #8599b4; margin: 1rem 0 1.5rem; }
+  .related-section { border-top: 1px solid rgba(151, 169, 209, .1); }
+  .related-card { padding: 2rem; }
+  .related-card h3 { font-size: 1.25rem; margin: 1rem 0; }
+  .related-card > .muted { font-size: .86rem; line-height: 1.8; }
+  .related-card > .text-link { margin-top: 1rem; }
+  .project-empty { display: flex; align-items: center; gap: 1.5rem; padding: 2.5rem; border: 1px solid rgba(151, 169, 209, .15); border-radius: .9rem; background: rgba(19, 31, 51, .35); }
+  .empty-icon { flex-shrink: 0; color: #8c83bb; display: grid; place-items: center; width: 4.5rem; height: 4.5rem; background: rgba(155, 136, 210, .06); border-radius: 1rem; border: 1px solid rgba(155, 136, 210, .13); }
+  .project-empty h3 { font-size: 1.13rem; margin: 0 0 .55rem; font-weight: 500; }
+  .project-empty p { color: #91a5be; font-size: .83rem; line-height: 1.85; max-width: 33rem; margin: 0; }
+  .project-empty .button { margin-left: auto; flex-shrink: 0; }
+  .laser-cta { padding-block: 5rem 6rem; background: radial-gradient(ellipse at center bottom, rgba(104, 73, 170, .12), transparent 65%); border-top: 1px solid rgba(151, 169, 209, .1); }
+  .laser-cta-content { text-align: center; }
+  .laser-cta h2 { margin: 1rem 0 1.5rem; font-size: clamp(2.2rem, 4.8vw, 4.3rem); line-height: 1.12; letter-spacing: -.055em; font-weight: 500; }
+  .laser-cta-content > p:not(.eyebrow) { max-width: 34rem; color: #9cacc2; font-size: .94rem; line-height: 1.85; margin: 0 auto 2rem; }
+  @media (max-width: 1050px) { .time-grid { gap: 2.5rem; } .time-art { padding: 1.5rem; } .time-comparison { gap: 1.15rem; } .concept-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); } .concept-card:nth-child(3) { border-left: 0; } .concept-card:nth-child(n+3) { border-top: 1px solid rgba(151, 169, 209, .14); } .station-grid { gap: 2rem; } .project-empty { flex-wrap: wrap; } .project-empty .button { margin-left: 6rem; } }
+  @media (max-width: 760px) { .time-grid,.applications-grid,.station-grid { grid-template-columns: 1fr; gap: 2.5rem; } .time-section { padding-top: .5rem; } .time-art { min-height: 22rem; max-width: 40rem; width: 100%; } .time-number { font-size: 7rem; } .time-comparison { gap: 2rem; } .section-lead { flex-direction: column; gap: 1.3rem; align-items: flex-start; } .section-lead > .muted { max-width: 100%; } .concept-card { padding: 1.4rem 1.1rem; } .concept-symbol { height: 5.5rem; } .concept-card h3 { font-size: .95rem; } .concept-card p { font-size: .75rem; } .concept-takeaway { align-items: flex-start; padding-inline: .25rem; } .concept-takeaway :global(svg) { margin-top: .3rem; } .applications-intro .section-heading br { display: none; } .applications-intro .muted,.scope-note { max-width: 100%; } .application { grid-template-columns: 1rem 2.5rem 1fr; gap: .8rem; } .application-icon { width: 2.5rem; height: 2.5rem; } .station-photo-placeholder { height: 22rem; min-height: 0; } .station-photo figcaption { max-width: 32rem; } .project-empty { padding: 1.5rem; gap: 1.2rem; } .empty-icon { width: 3.5rem; height: 3.5rem; } .project-empty > div:nth-child(2) { flex: 1; min-width: 12rem; } .project-empty .button { margin: .3rem 0 0; } }
+  @media (prefers-reduced-motion: reduce) { .time-art *, .laser-cta * { animation: none !important; transition: none !important; } }
+</style>

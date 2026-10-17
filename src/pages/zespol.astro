@@ -1,0 +1,46 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+import PageIntro from '../components/PageIntro.astro';
+import Icon from '../components/Icon.astro';
+import { supervisor, members } from '../data/team';
+---
+
+<BaseLayout title="Zespół" description="Poznaj opiekuna naukowego koła SPEKTRUM przy Wydziale Elektrycznym ZUT i dowiedz się, jak dołączyć do zespołu.">
+  <main id="main-content">
+    <PageIntro eyebrow="LUDZIE SPEKTRUM" title="Różne perspektywy. Wspólna ciekawość." description="Za każdym pytaniem i eksperymentem stoją ludzie. Poznaj naukowe wsparcie koła i znajdź miejsce dla siebie." />
+
+    <section class="section" aria-labelledby="supervisor-heading">
+      <div class="container supervisor-grid">
+        <div class="supervisor-label"><p class="eyebrow">WSPARCIE NAUKOWE</p><h2 id="supervisor-heading" class="section-heading">Wiedza, która<br />wskazuje kierunek.</h2><p class="muted">Opiekun naukowy wspiera merytoryczną działalność studenckiego koła.</p></div>
+        <article class="supervisor-card panel">
+          <div class="supervisor-symbol" aria-hidden="true"><Icon name="optics" size={72} /><span>OPIEKUN NAUKOWY</span></div>
+          <div class="supervisor-content"><span class="tag">SPEKTRUM · ZUT</span><h3>{supervisor.name}</h3><p class="supervisor-role">{supervisor.role}</p><p class="muted">{supervisor.description}</p><a class="text-link" href="/kontakt/">Informacje kontaktowe <Icon name="arrow-up-right" size={18} /></a></div>
+        </article>
+      </div>
+    </section>
+
+    <section class="section members-section" aria-labelledby="members-heading">
+      <div class="container">
+        <div class="members-top"><div><p class="eyebrow">STUDENCKA ENERGIA</p><h2 id="members-heading" class="section-heading">Zespół koła.</h2></div><p class="muted">Wspólne zainteresowania są początkiem. Kolejne pomysły mogą pojawić się właśnie dzięki Tobie.</p></div>
+        {members.length > 0 ? (
+          <div class="members-grid">{members.map((member) => (
+            <article class="member-card panel">
+              {member.image ? <img src={member.image.src} alt={member.image.alt} loading="lazy" width="600" height="600" /> : <div class="member-symbol" aria-hidden="true"><Icon name="spark" size={40} /></div>}
+              <div class="member-info"><h3>{member.name}</h3><p class="member-role">{member.role}</p>{member.description && <p class="muted">{member.description}</p>}{member.profileUrl && <a class="text-link" href={member.profileUrl} target="_blank" rel="noopener noreferrer">Profil <Icon name="arrow-up-right" size={18} /><span class="sr-only"> — otwiera się w nowej karcie</span></a>}</div>
+            </article>
+          ))}</div>
+        ) : (
+          <div class="team-empty"><div class="empty-mark" aria-hidden="true"><Icon name="plus" size={34} /></div><div><h3>Przedstawimy się tutaj bliżej.</h3><p class="muted">Lista członków i ich sylwetki są w przygotowaniu. Opublikujemy je po potwierdzeniu aktualnego składu zespołu i zebraniu zgód.</p></div><a class="text-link" href="/dolacz/">Zainteresowany dołączeniem? <Icon name="arrow-right" size={18} /></a></div>
+        )}
+      </div>
+    </section>
+
+    <section class="section" aria-labelledby="team-cta-heading"><div class="container team-cta"><div class="team-cta-art" aria-hidden="true"><span></span><span></span><span></span></div><p class="eyebrow">JEST MIEJSCE NA TWÓJ POMYSŁ</p><h2 id="team-cta-heading" class="section-heading">Wspólne pytania<br />otwierają nowe możliwości.</h2><p class="muted">Fotonika, technika laserowa, teleinformatyka — sprawdź, od czego zacząć rozmowę o działalności w kole.</p><a class="button button-primary" href="/dolacz/">Poznaj drogę do SPEKTRUM <Icon name="arrow-right" size={18} /></a></div></section>
+  </main>
+</BaseLayout>
+
+<style>
+  .supervisor-grid{display:grid;grid-template-columns:.8fr 1.2fr;gap:4rem;align-items:start}.supervisor-label>p:last-child{max-width:22rem;line-height:1.8}.supervisor-card{padding:0;overflow:hidden;display:grid;grid-template-columns:11rem 1fr}.supervisor-symbol{display:flex;align-items:center;justify-content:center;flex-direction:column;gap:2.5rem;min-height:23rem;color:#62dce8;background:radial-gradient(ellipse at 40% 45%,rgba(98,220,232,.12),transparent 70%);border-right:1px solid rgba(255,255,255,.1)}.supervisor-symbol span{font:.55rem monospace;letter-spacing:.12em;color:#91a5bd;writing-mode:vertical-rl}.supervisor-content{padding:2.5rem}.supervisor-content h3{font-size:clamp(1.4rem,2vw,1.85rem);line-height:1.4;font-weight:500;letter-spacing:-.035em;margin:1.4rem 0 .8rem}.supervisor-role{font-size:.8rem;color:#62dce8}.supervisor-content>.muted{font-size:.88rem;line-height:1.8;margin:1.3rem 0 1.5rem}.members-section{border-block:1px solid rgba(255,255,255,.08);background:rgba(255,255,255,.02)}.members-top{display:flex;align-items:end;justify-content:space-between;gap:3rem;margin-bottom:2.5rem}.members-top>p{max-width:26rem;line-height:1.8}.team-empty{display:grid;grid-template-columns:auto 1fr;gap:1.5rem;padding:2.5rem;border:1px dashed rgba(98,220,232,.25);border-radius:1rem;background:rgba(7,16,32,.4)}.empty-mark{width:4rem;height:4rem;border:1px solid rgba(98,220,232,.25);border-radius:50%;display:grid;place-items:center;color:#62dce8}.team-empty h3{font-size:1.3rem;font-weight:500;margin:.2rem 0 .6rem}.team-empty p{max-width:42rem;line-height:1.8;margin:0}.team-empty>.text-link{grid-column:2;margin-top:.2rem}.members-grid{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:1.5rem}.member-card{overflow:hidden;padding:0}.member-card>img,.member-symbol{height:17rem;width:100%;object-fit:cover}.member-symbol{display:grid;place-items:center;color:#62dce8;background:radial-gradient(ellipse at 50% 50%,rgba(98,220,232,.1),transparent 70%)}.member-info{padding:1.5rem}.member-info h3{font-size:1.2rem;font-weight:500;margin:0}.member-role{font-size:.8rem;color:#62dce8}.member-info>.muted{font-size:.9rem;line-height:1.8}.team-cta{position:relative;padding-block:3rem;overflow:hidden}.team-cta>p.muted{max-width:32rem;line-height:1.85;margin-bottom:2rem}.team-cta-art{position:absolute;inset:0 0 0 auto;width:40%;pointer-events:none;opacity:.45}.team-cta-art span{position:absolute;left:50%;top:50%;width:17rem;height:17rem;border:1px solid rgba(98,220,232,.35);border-radius:50%;transform:translate(-50%,-50%)}.team-cta-art span:nth-child(2){transform:translate(-70%,-50%)}.team-cta-art span:nth-child(3){transform:translate(-30%,-50%)}
+  @media(max-width:1050px){.supervisor-grid{grid-template-columns:1fr;gap:2rem}.supervisor-card{max-width:46rem}.members-grid{grid-template-columns:repeat(2,minmax(0,1fr))}.team-cta-art{opacity:.2}}
+  @media(max-width:650px){.supervisor-card{grid-template-columns:1fr}.supervisor-symbol{min-height:10rem;border-right:0;border-bottom:1px solid rgba(255,255,255,.1);gap:1rem}.supervisor-symbol span{writing-mode:horizontal-tb}.supervisor-symbol :global(svg){width:48px;height:48px}.supervisor-content{padding:1.75rem}.members-top{display:block}.team-empty{grid-template-columns:1fr;padding:1.5rem}.team-empty>.text-link{grid-column:1}.members-grid{grid-template-columns:1fr}.team-cta-art{display:none}}
+</style>

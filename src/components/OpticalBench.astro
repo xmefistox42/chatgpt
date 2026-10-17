@@ -1,0 +1,24 @@
+---
+interface Props { compact?: boolean; }
+const { compact = false } = Astro.props;
+---
+<div class:list={['optical-bench', { compact }]}>
+  <span class="diagram-label">OPTYKA W PRAKTYCE <span aria-hidden="true">↗</span></span>
+  <svg viewBox="0 0 580 320" role="img" aria-label="Schemat ideowy: wiązka światła przechodząca przez elementy układu optycznego. Nie jest odwzorowaniem wyposażenia laboratorium.">
+    <defs><linearGradient id="bench-beam"><stop stop-color="#6bd8f7"/><stop offset=".5" stop-color="#a69af8"/><stop offset="1" stop-color="#5da1ff"/></linearGradient><pattern id="bench-grid" width="22" height="22" patternUnits="userSpaceOnUse"><circle cx="1" cy="1" r="1" fill="#29374c"/></pattern></defs>
+    <rect width="580" height="320" fill="url(#bench-grid)"/>
+    <g stroke="#28384e" fill="none" stroke-width="1"><path d="m82 228 65-36h65l-65 36zM280 228l40-24h52l-40 24zM410 228l43-24h47l-40 24z"/><path d="M147 157v53m183-53v55m125-54v52"/></g>
+    <g fill="#15243a" stroke="#6685a9" stroke-width="1.2"><path d="m90 133 56-31 64 36-57 32z"/><path d="M90 133v48l63 36v-47zm63 37 57-32v48l-57 31Z"/></g>
+    <path d="M156 155h299" stroke="#6dd8ff" stroke-width="12" opacity=".04"/>
+    <path d="M156 155h299" stroke="#9e9dff" stroke-width="5" opacity=".12"/>
+    <path d="M156 155h299" stroke="url(#bench-beam)" stroke-width="2"/>
+    <path d="M320 111c-18 25-18 63 0 88 18-25 18-63 0-88Z" fill="#79ccfc" fill-opacity=".11" stroke="#8ecbfa"/>
+    <path d="M366 114v83" stroke="#667d9d" stroke-width="4"/>
+    <path d="m436 128 27-15v67l-27 15z" fill="#1d3451" stroke="#789cc6"/>
+    <circle cx="446" cy="155" r="8" fill="#89d8ff" fill-opacity=".4"/>
+    <g stroke="#5b6b83" fill="none" stroke-width=".7"><path d="M147 95V63h-47m220 39V63h40m94 43V63h39"/></g>
+    <g fill="#aab9d0" font-family="monospace" font-size="9" letter-spacing="1.4"><text x="60" y="55">ŹRÓDŁO</text><text x="318" y="55">OPTYKA</text><text x="455" y="55">DETEKCJA</text></g>
+  </svg>
+  <p>Schemat ideowy układu optycznego</p>
+</div>
+<style>.optical-bench{position:relative;background:linear-gradient(135deg,#0e192d,#101b30);border:1px solid #2a364c;overflow:hidden;min-height:320px;display:flex;flex-direction:column;justify-content:center}.diagram-label{font-size:9px;letter-spacing:.16em;display:flex;justify-content:space-between;padding:25px 28px 0;color:#adbcd2}.diagram-label span{color:#73d8f6;font-size:18px}.optical-bench svg{display:block;width:100%;height:auto}.optical-bench p{font-size:9px;letter-spacing:.06em;color:#99abc6;margin:-25px 28px 25px}.compact{min-height:250px}@media(max-width:639px){.optical-bench{min-height:260px}.optical-bench p{margin-top:-10px}.diagram-label{padding:20px 20px 0}}</style>

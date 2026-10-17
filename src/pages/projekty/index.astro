@@ -1,0 +1,107 @@
+---
+import { getCollection } from 'astro:content';
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import PageIntro from '../../components/PageIntro.astro';
+import Icon from '../../components/Icon.astro';
+
+const projects = (await getCollection('projects', ({ data }) => data.published)).sort(
+  (a, b) => b.data.date.valueOf() - a.data.date.valueOf(),
+);
+
+const statusLabels = {
+  planowany: 'Planowany',
+  'w-trakcie': 'W trakcie',
+  zakonczony: 'Zakończony',
+};
+---
+
+<BaseLayout
+  title="Projekty"
+  description="Projekty Koła Naukowego SPEKTRUM. Odkrywaj zagadnienia z optyki, fotoniki i technologii laserowych."
+>
+  <main id="main-content">
+    <PageIntro
+      eyebrow="Od pomysłu do eksperymentu"
+      title="Projekty"
+      description="Tu będziemy pokazywać to, nad czym pracujemy: pytania badawcze, przebieg eksperymentów i ich wyniki."
+    />
+
+    <section class="section projects-section" aria-label="Projekty koła">
+      <div class="container">
+        {
+          projects.length > 0 ? (
+            <div class="card-grid">
+              {projects.map((project) => (
+                <article class="panel project-card">
+                  {project.data.image && (
+                    <img
+                      class="project-image"
+                      src={project.data.image}
+                      alt={project.data.imageAlt!}
+                      loading="lazy"
+                      width="800"
+                      height="500"
+                    />
+                  )}
+                  <div class="project-body">
+                    <span class="tag">{statusLabels[project.data.status]}</span>
+                    <h2>
+                      <a href={`/projekty/${project.id}/`}>{project.data.title}</a>
+                    </h2>
+                    <p class="muted">{project.data.description}</p>
+                    {project.data.tags.length > 0 && (
+                      <ul class="tags" aria-label="Tematy projektu">
+                        {project.data.tags.map((tag) => (
+                          <li class="tag">{tag}</li>
+                        ))}
+                      </ul>
+                    )}
+                    <a class="text-link" href={`/projekty/${project.id}/`}>
+                      Poznaj projekt <Icon name="arrow-up-right" />
+                    </a>
+                  </div>
+                </article>
+              ))}
+            </div>
+          ) : (
+            <div class="empty-state panel projects-empty">
+              <span class="empty-icon" aria-hidden="true"><Icon name="optics" /></span>
+              <p class="eyebrow">Miejsce na nowe odkrycia</p>
+              <h2>Każdy projekt zaczyna się od pytania.</h2>
+              <p class="muted">
+                Opisy projektów opublikujemy, gdy będziemy mogli opowiedzieć o ich
+                celach i postępach. Tymczasem poznaj temat lasera femtosekundowego
+                lub dołącz do zespołu i wnieś własny pomysł.
+              </p>
+              <div class="empty-actions">
+                <a class="button button-primary" href="/laser-femtosekundowy/">
+                  Laser femtosekundowy <Icon name="arrow-up-right" />
+                </a>
+                <a class="button button-secondary" href="/dolacz/">
+                  Dołącz do SPEKTRUM <Icon name="arrow-right" />
+                </a>
+              </div>
+            </div>
+          )
+        }
+      </div>
+    </section>
+  </main>
+</BaseLayout>
+
+<style>
+  .projects-section { padding-top: 0; }
+  .project-card { overflow: hidden; }
+  .project-image { width: 100%; height: auto; aspect-ratio: 8 / 5; object-fit: cover; }
+  .project-body { display: flex; flex-direction: column; align-items: flex-start; gap: 1rem; padding: clamp(1.5rem, 3vw, 2rem); }
+  .project-body h2 { margin: 0; font-size: 1.5rem; }
+  .project-body h2 a { text-decoration: none; }
+  .project-body p { margin: 0; }
+  .tags { display: flex; flex-wrap: wrap; gap: .5rem; margin: 0; padding: 0; list-style: none; }
+  .projects-empty { max-width: 62rem; margin-inline: auto; padding: clamp(2rem, 6vw, 5rem); }
+  .empty-icon { display: inline-flex; margin-bottom: 1.5rem; color: var(--color-accent, #8cbaff); }
+  .empty-icon :global(svg) { width: 2.75rem; height: 2.75rem; }
+  .projects-empty h2 { max-width: 25ch; margin: 0 0 1.25rem; font-size: clamp(1.8rem, 4vw, 3rem); line-height: 1.15; }
+  .projects-empty > .muted { max-width: 65ch; }
+  .empty-actions { display: flex; flex-wrap: wrap; gap: .75rem; margin-top: 2rem; }
+</style>

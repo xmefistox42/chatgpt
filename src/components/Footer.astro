@@ -1,0 +1,13 @@
+---
+import { site } from '../data/site';
+import Icon from './Icon.astro';
+---
+<footer class="site-footer">
+  <div class="footer-top container">
+    <div class="footer-brand"><a class="wordmark" href="/">SPEKTRUM<span class="wordmark-dot" aria-hidden="true"></span></a><p>Światło otwiera możliwości.<br/>Ciekawość nadaje im kierunek.</p><span class="eyebrow">FOTONIKA · LASERY · NAUKA</span></div>
+    <nav aria-label="Poznaj SPEKTRUM"><p class="footer-label">Odkrywaj</p><a href="/o-nas/">O nas</a><a href="/laser-femtosekundowy/">Laser femtosekundowy</a><a href="/laboratorium/">Laboratorium</a><a href="/projekty/">Projekty</a></nav>
+    <nav aria-label="Społeczność"><p class="footer-label">Bądź częścią</p><a href="/zespol/">Zespół</a><a href="/aktualnosci/">Aktualności</a><a href="/dolacz/">Dołącz do nas</a><a href="/kontakt/">Kontakt</a></nav>
+    <div class="footer-university"><p class="footer-label">Nasze miejsce</p><a href={site.links.university}>Zachodniopomorski<br/>Uniwersytet Technologiczny<br/>w Szczecinie <Icon name="arrow-up-right" size={15}/></a><p>Wydział Elektryczny</p><span class="location"><span class="status-dot"></span>Szczecin, Polska</span></div>
+  </div>
+  <div class="footer-bottom container"><span>© {new Date().getFullYear()} Studenckie Koło Naukowe SPEKTRUM</span><span>Od ciekawości do odkrycia.</span><a href="#top">Wróć na górę ↑</a></div>
+</footer>

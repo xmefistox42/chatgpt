@@ -1,0 +1,21 @@
+---
+interface Props { name: string; size?: number; class?: string; }
+const { name, size = 20, class: className } = Astro.props;
+const paths: Record<string, string> = {
+  'arrow-up-right': 'M5 19 19 5M5 5h14v14',
+  'arrow-right': 'M4 12h16m-6-6 6 6-6 6',
+  'chevron-right': 'm9 5 7 7-7 7',
+  'spark': 'm12 2 2.5 7.5L22 12l-7.5 2.5L12 22l-2.5-7.5L2 12l7.5-2.5L12 2Z',
+  'wave': 'M2 12h3l2-5 3 10 3-14 3 18 2-9h4',
+  'optics': 'M2 12h20M12 2c-6 5-6 15 0 20 6-5 6-15 0-20Z',
+  'laser': 'M2 12h7m6 0h7M12 3c-4 4-4 14 0 18 4-4 4-14 0-18ZM2 5l5 3M2 19l5-3m10-8 5-3m-5 11 5 3',
+  'network': 'M8 5h8M5 8v8m3 3h8m3-11v8M8 8l8 8m-8 0 8-8M2 2h6v6H2Zm14 0h6v6h-6ZM2 16h6v6H2Zm14 0h6v6h-6Z',
+  'plus': 'M12 4v16M4 12h16',
+  'mail': 'M3 5h18v14H3V5Zm0 1 9 7 9-7',
+  'globe': 'M2 12h20M12 2c-6 5-6 15 0 20 6-5 6-15 0-20ZM12 2a10 10 0 1 0 0 20 10 10 0 0 0 0-20Z',
+  'pin': 'M20 10c0 6-8 12-8 12S4 16 4 10a8 8 0 1 1 16 0ZM12 7a3 3 0 1 0 0 6 3 3 0 0 0 0-6Z',
+  'menu': 'M4 6h16M4 12h16M4 18h16',
+  'close': 'm5 5 14 14M5 19 19 5',
+};
+---
+<svg width={size} height={size} viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" class={className}><path d={paths[name] || paths['arrow-up-right']} /></svg>

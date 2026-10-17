@@ -1,0 +1,47 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+import PageIntro from '../components/PageIntro.astro';
+import Icon from '../components/Icon.astro';
+import { site } from '../data/site';
+import { laboratoryPhotos, laboratoryPhotoSlots } from '../data/laboratory';
+---
+
+<BaseLayout title="Laboratorium" description="Laboratorium Technologii Teleinformatycznych i Fotoniki — zaplecze naukowe koła SPEKTRUM przy Wydziale Elektrycznym ZUT.">
+  <main id="main-content">
+    <PageIntro eyebrow="NASZE ZAPLECZE" title="Tu światło staje się narzędziem." description="Laboratorium Technologii Teleinformatycznych i Fotoniki przy Wydziale Elektrycznym ZUT w Szczecinie." />
+
+    <section class="section" aria-labelledby="lab-heading">
+      <div class="container lab-intro">
+        <div><p class="eyebrow">PRZESTRZEŃ POZNAWANIA</p><h2 id="lab-heading" class="section-heading">Z bliska widać więcej.</h2></div>
+        <div class="prose"><p>Laboratorium Technologii Teleinformatycznych i Fotoniki stanowi zaplecze naukowe koła SPEKTRUM. Zainteresowania koła spotykają się tu z aparaturą i metodyką pracy eksperymentalnej.</p><p>W Pracowni Urządzeń Fotonicznych dostępny jest system impulsów femtosekundowych i pikosekundowych. To punkt wyjścia do poznawania zjawisk zachodzących w bardzo krótkich skalach czasu.</p><p>Szczegóły dostępności stanowisk oraz zasady pracy należy ustalić z opiekunem naukowym. Korzystanie z aparatury wymaga odpowiedniego przygotowania i przestrzegania zasad obowiązujących w pracowni.</p></div>
+      </div>
+    </section>
+
+    <section class="section instrument-section" aria-labelledby="instrument-heading">
+      <div class="container instrument-grid">
+        <div class="instrument-art" aria-hidden="true"><div class="beam beam-one"></div><div class="beam beam-two"></div><div class="pulse pulse-one"></div><div class="pulse pulse-two"></div><div class="pulse pulse-three"></div><span class="instrument-label">ULTRAKRÓTKIE IMPULSY</span><span class="instrument-scale">fs / ps</span></div>
+        <div class="instrument-copy"><p class="eyebrow">PRACOWNIA URZĄDZEŃ FOTONICZNYCH</p><h2 id="instrument-heading" class="section-heading">Mała skala czasu.<br />Duża przestrzeń pytań.</h2><p class="muted">Femtosekunda to jedna biliardowa sekundy. Pikosekunda — jedna bilionowa. Tak krótkie impulsy pozwalają myśleć o świetle w skali dalekiej od codziennego doświadczenia.</p><div class="unit-grid"><div><strong>10<sup>−15</sup> s</strong><span>femtosekunda</span></div><div><strong>10<sup>−12</sup> s</strong><span>pikosekunda</span></div></div><p class="instrument-note">Grafika przedstawia ideę impulsów. Nie jest schematem ani zdjęciem wyposażenia pracowni.</p></div>
+      </div>
+    </section>
+
+    <section class="section" aria-labelledby="lab-gallery-heading">
+      <div class="container">
+        <div class="gallery-heading"><div><p class="eyebrow">GALERIA LABORATORIUM</p><h2 id="lab-gallery-heading" class="section-heading">Miejsce dla prawdziwych kadrów.</h2></div><p class="muted">Zdjęcia przestrzeni, aparatury i pracy koła pojawią się tutaj po przygotowaniu materiałów do publikacji.</p></div>
+        <div class="lab-gallery">
+          {laboratoryPhotos.length > 0 ? laboratoryPhotos.map((photo) => (
+            <figure class="lab-photo"><img src={photo.src} alt={photo.alt} loading="lazy" /><figcaption>{photo.caption}{photo.credit && <small>Fot. {photo.credit}</small>}</figcaption></figure>
+          )) : laboratoryPhotoSlots.map((slot, index) => (
+            <figure class="photo-slot"><div class="photo-placeholder" aria-hidden="true"><span class="slot-corner">{String(index + 1).padStart(2, '0')}</span><Icon name={index === 1 ? 'optics' : index === 2 ? 'wave' : 'spark'} size={44} /><span class="slot-label">ZDJĘCIE W PRZYGOTOWANIU</span></div><figcaption><strong>{slot.title}</strong><p>{slot.caption}</p></figcaption></figure>
+          ))}
+        </div>
+      </div>
+    </section>
+
+    <section class="section lab-next" aria-labelledby="lab-next-heading"><div class="container lab-next-row"><div><p class="eyebrow">OD CIEKAWOŚCI DO ROZMOWY</p><h2 id="lab-next-heading" class="section-heading">Chcesz poznać pracownię?</h2><p class="muted">Zacznij od kontaktu z kołem i ustalenia możliwości udziału.</p></div><div class="lab-actions"><a class="button button-primary" href="/dolacz/">Jak dołączyć <Icon name="arrow-right" size={18} /></a><a class="text-link" href={site.links.faculty} target="_blank" rel="noopener noreferrer">Strona Wydziału Elektrycznego <Icon name="arrow-up-right" size={18} /><span class="sr-only"> — otwiera się w nowej karcie</span></a></div></div></section>
+  </main>
+</BaseLayout>
+
+<style>
+  .lab-intro{display:grid;grid-template-columns:.9fr 1.1fr;gap:5rem}.lab-intro .prose{max-width:42rem}.instrument-section{background:rgba(255,255,255,.025);border-block:1px solid rgba(255,255,255,.08)}.instrument-grid{display:grid;grid-template-columns:1fr 1fr;gap:5rem;align-items:center}.instrument-art{min-height:29rem;overflow:hidden;position:relative;border:1px solid rgba(98,220,232,.2);border-radius:1rem;background:radial-gradient(ellipse at 50% 50%,rgba(45,152,182,.13),transparent 60%),repeating-linear-gradient(0deg,transparent,transparent 39px,rgba(98,220,232,.06) 40px),repeating-linear-gradient(90deg,transparent,transparent 39px,rgba(98,220,232,.06) 40px)}.beam{position:absolute;top:50%;left:0;right:0;height:1px;background:linear-gradient(90deg,transparent,#62dce8,transparent)}.beam-two{top:calc(50% + 4px);opacity:.25}.pulse{position:absolute;top:50%;width:50px;height:180px;border:2px solid #62dce8;border-radius:50%;transform:translate(-50%,-50%);box-shadow:0 0 30px rgba(98,220,232,.13),inset 0 0 30px rgba(98,220,232,.08)}.pulse-one{left:22%;height:92px;opacity:.4}.pulse-two{left:50%;height:220px;background:linear-gradient(90deg,transparent,rgba(98,220,232,.2),transparent)}.pulse-three{left:78%;height:92px;opacity:.4}.instrument-label{position:absolute;left:1.5rem;top:1.5rem;color:#91a5bd;font:.65rem monospace;letter-spacing:.12em}.instrument-scale{position:absolute;bottom:1.5rem;right:1.5rem;color:#62dce8;font:1rem monospace}.instrument-copy>p.muted{line-height:1.85}.unit-grid{display:grid;grid-template-columns:1fr 1fr;gap:1rem;margin:2rem 0}.unit-grid>div{border-top:1px solid rgba(255,255,255,.15);padding-top:1rem}.unit-grid strong{font-size:2rem;font-weight:400;letter-spacing:-.04em;color:#e7edf8}.unit-grid sup{font-size:1rem}.unit-grid span{display:block;color:#91a5bd;font-size:.8rem;margin-top:.3rem}.instrument-note{font-size:.72rem;line-height:1.7;color:#91a5bd;max-width:28rem}.gallery-heading{display:flex;justify-content:space-between;gap:3rem;align-items:end;margin-bottom:2.5rem}.gallery-heading>p{max-width:24rem;line-height:1.8}.lab-gallery{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:1.5rem}.photo-slot,.lab-photo{margin:0}.photo-placeholder{height:17rem;border:1px solid rgba(255,255,255,.13);border-radius:.75rem;position:relative;display:flex;align-items:center;justify-content:center;background:linear-gradient(135deg,rgba(98,220,232,.045),rgba(255,255,255,.015));color:#567482}.slot-corner{position:absolute;top:1.2rem;left:1.2rem;font:.7rem monospace;color:#91a5bd}.slot-label{position:absolute;bottom:1.2rem;font-size:.55rem;letter-spacing:.14em;color:#91a5bd}.lab-gallery figcaption{padding-top:1.15rem}.lab-gallery figcaption strong{font-size:1rem;font-weight:500}.lab-gallery figcaption p{font-size:.83rem;line-height:1.8;color:#91a5bd;margin-top:.4rem}.lab-photo img{width:100%;height:17rem;object-fit:cover;border-radius:.75rem}.lab-photo figcaption{font-size:.9rem;line-height:1.7;color:#b5c0d1}.lab-photo figcaption small{display:block;color:#91a5bd}.lab-next{border-top:1px solid rgba(255,255,255,.08)}.lab-next-row{display:flex;align-items:center;justify-content:space-between;gap:3rem}.lab-next .muted{line-height:1.7}.lab-actions{display:flex;align-items:flex-start;flex-direction:column;gap:1.5rem}
+  @media(max-width:950px){.lab-intro,.instrument-grid{grid-template-columns:1fr;gap:2.5rem}.instrument-art{min-height:23rem}.gallery-heading{display:block}.gallery-heading>p{max-width:none}.lab-gallery{grid-template-columns:1fr}.photo-placeholder,.lab-photo img{height:19rem}.lab-next-row{align-items:flex-start;flex-direction:column}}
+</style>

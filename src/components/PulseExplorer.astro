@@ -1,0 +1,156 @@
+---
+const duration = 100;
+const plot = { left: 48, right: 716, top: 72, bottom: 254, center: 382 };
+const point = (time: number, width: number) => {
+  const x = plot.center + time * (plot.right - plot.left) / 800;
+  const intensity = Math.exp(-4 * Math.LN2 * (time / width) ** 2);
+  return [x, plot.bottom - intensity * (plot.bottom - plot.top)];
+};
+const curve = Array.from({ length: 401 }, (_, i) => point(-400 + i * 2, duration))
+  .map(([x, y], i) => `${i ? 'L' : 'M'}${x.toFixed(2)},${y.toFixed(2)}`).join(' ');
+const halfWidth = duration * (plot.right - plot.left) / 1600;
+---
+
+<section class="pulse-explorer panel" aria-labelledby="pulse-title" data-pulse-explorer>
+  <div class="explorer-header">
+    <div>
+      <p class="eyebrow">Interaktywny model</p>
+      <h2 id="pulse-title">Zmień skalę czasu.</h2>
+      <p class="muted">Zobacz, jak czas trwania zmienia kształt obwiedni impulsu.</p>
+    </div>
+    <span class="model-badge"><span aria-hidden="true"></span> Model edukacyjny</span>
+  </div>
+
+  <div class="plot-meta" aria-hidden="true">
+    <span>Względne natężenie <span class="formula">I / I<sub>max</sub></span></span>
+    <span>Obwiednia gaussowska</span>
+  </div>
+
+  <svg class="pulse-plot" viewBox="0 0 760 322" role="img" aria-labelledby="pulse-chart-title pulse-chart-desc">
+    <title id="pulse-chart-title">Obwiednia natężenia impulsu w czasie</title>
+    <desc id="pulse-chart-desc" data-pulse-description>Gaussowska obwiednia natężenia o szerokości połówkowej 100 femtosekund. Natężenie unormowano do maksimum równego 1. Oś czasu od −400 do 400 femtosekund.</desc>
+    <defs>
+      <linearGradient id="pulse-fill" x1="0" y1="0" x2="0" y2="1">
+        <stop offset="0%" stop-color="#a28cff" stop-opacity=".42" />
+        <stop offset="100%" stop-color="#54dfef" stop-opacity=".02" />
+      </linearGradient>
+      <linearGradient id="pulse-line" x1="0" y1="0" x2="1" y2="0">
+        <stop offset="0%" stop-color="#61dce9" />
+        <stop offset="52%" stop-color="#b19aff" />
+        <stop offset="100%" stop-color="#61dce9" />
+      </linearGradient>
+    </defs>
+    <g class="plot-grid" fill="none" stroke="currentColor" stroke-width="1">
+      <path d="M48 72H716 M48 163H716 M48 254H716" />
+      <path d="M48 50V254 M215 50V254 M382 50V254 M549 50V254 M716 50V254" stroke-dasharray="3 7" />
+    </g>
+    <g class="plot-labels" fill="currentColor" font-size="11" font-family="monospace">
+      <text x="30" y="76" text-anchor="end">1</text>
+      <text x="30" y="167" text-anchor="end">0,5</text>
+      <text x="30" y="258" text-anchor="end">0</text>
+      <text x="48" y="280" text-anchor="middle">−400</text>
+      <text x="215" y="280" text-anchor="middle">−200</text>
+      <text x="382" y="280" text-anchor="middle">0</text>
+      <text x="549" y="280" text-anchor="middle">200</text>
+      <text x="716" y="280" text-anchor="middle">400</text>
+      <text x="716" y="310" text-anchor="end">Czas względem maksimum [fs]</text>
+    </g>
+    <path data-pulse-area d={`${curve} L716,254 L48,254 Z`} fill="url(#pulse-fill)" />
+    <path data-pulse-curve d={curve} fill="none" stroke="url(#pulse-line)" stroke-width="2.6" stroke-linecap="round" />
+    <g class="fwhm-indicator" stroke="#9d91e9" stroke-width="1">
+      <path data-pulse-width d={`M${382 - halfWidth},254 V163 H${382 + halfWidth} V254`} fill="none" stroke-dasharray="4 5" />
+      <path data-pulse-bracket d={`M${382 - halfWidth},157 V169 M${382 - halfWidth},163 H${382 + halfWidth} M${382 + halfWidth},157 V169`} fill="none" stroke-dasharray="none" />
+    </g>
+    <text class="pulse-width-label" data-pulse-chart-label x="382" y="31" fill="#d4cafd" text-anchor="middle" font-size="11" font-family="monospace">FWHM · 100 fs</text>
+  </svg>
+
+  <div class="pulse-controls">
+    <div class="control-label">
+      <label for="pulse-duration">Czas trwania impulsu <abbr title="Full Width at Half Maximum — szerokość połówkowa">FWHM</abbr></label>
+      <output for="pulse-duration" data-pulse-output>{duration} <span>fs</span></output>
+    </div>
+    <input id="pulse-duration" class="pulse-range" type="range" min="20" max="300" step="10" value={duration} aria-describedby="pulse-help pulse-model-note" style="--range-progress: 28.571%" />
+    <div class="range-limits" aria-hidden="true"><span>20 fs · krótszy impuls</span><span>300 fs · dłuższy impuls</span></div>
+    <p id="pulse-help" class="pulse-help">FWHM to szerokość impulsu w połowie jego maksymalnego natężenia. Suwak obsłużysz również strzałkami klawiatury.</p>
+  </div>
+  <div class="model-note" id="pulse-model-note">
+    <span class="note-mark" aria-hidden="true">i</span>
+    <p><strong>Model poglądowy — nie pomiar ani symulacja konkretnej aparatury.</strong> Wykres pokazuje obwiednię natężenia, bez oscylacji pola optycznego. Każdy impuls ma maksimum równe 1; jego energia nie jest zachowana przy zmianie szerokości.</p>
+  </div>
+</section>
+
+<script>
+  const setupPulseExplorer = () => {
+    document.querySelectorAll<HTMLElement>('[data-pulse-explorer]').forEach((explorer) => {
+      if (explorer.dataset.initialized) return;
+      const range = explorer.querySelector<HTMLInputElement>('input[type="range"]');
+      const output = explorer.querySelector<HTMLOutputElement>('[data-pulse-output]');
+      const curve = explorer.querySelector<SVGPathElement>('[data-pulse-curve]');
+      const area = explorer.querySelector<SVGPathElement>('[data-pulse-area]');
+      const width = explorer.querySelector<SVGPathElement>('[data-pulse-width]');
+      const bracket = explorer.querySelector<SVGPathElement>('[data-pulse-bracket]');
+      const label = explorer.querySelector<SVGTextElement>('[data-pulse-chart-label]');
+      const description = explorer.querySelector<SVGDescElement>('[data-pulse-description]');
+      if (!range || !output || !curve || !area || !width || !bracket || !label || !description) return;
+      explorer.dataset.initialized = 'true';
+      const update = () => {
+        const duration = Number(range.value);
+        const path = Array.from({ length: 401 }, (_, index) => {
+          const time = -400 + index * 2;
+          const x = 382 + time * 668 / 800;
+          const y = 254 - Math.exp(-4 * Math.LN2 * (time / duration) ** 2) * 182;
+          return `${index ? 'L' : 'M'}${x.toFixed(2)},${y.toFixed(2)}`;
+        }).join(' ');
+        const left = 382 - duration * 668 / 1600;
+        const right = 382 + duration * 668 / 1600;
+        curve.setAttribute('d', path);
+        area.setAttribute('d', `${path} L716,254 L48,254 Z`);
+        width.setAttribute('d', `M${left},254 V163 H${right} V254`);
+        bracket.setAttribute('d', `M${left},157 V169 M${left},163 H${right} M${right},157 V169`);
+        output.innerHTML = `${duration} <span>fs</span>`;
+        label.textContent = `FWHM · ${duration} fs`;
+        description.textContent = `Gaussowska obwiednia natężenia o szerokości połówkowej ${duration} femtosekund. Natężenie unormowano do maksimum równego 1. Oś czasu od −400 do 400 femtosekund.`;
+        range.setAttribute('aria-valuetext', `${duration} femtosekund`);
+        range.style.setProperty('--range-progress', `${(duration - 20) / 280 * 100}%`);
+      };
+      range.addEventListener('input', update);
+      update();
+    });
+  };
+  setupPulseExplorer();
+  document.addEventListener('astro:page-load', setupPulseExplorer);
+</script>
+
+<style>
+  .pulse-explorer { padding: clamp(1.2rem, 4vw, 2.5rem); background: linear-gradient(140deg, rgba(17, 29, 51, .96), rgba(8, 17, 34, .98)); border: 1px solid rgba(151, 169, 209, .18); border-radius: 1.5rem; }
+  .explorer-header { display: flex; justify-content: space-between; gap: 1.5rem; align-items: flex-start; }
+  .explorer-header h2 { font-size: clamp(1.7rem, 3vw, 2.5rem); margin: .7rem 0 .6rem; letter-spacing: -.045em; }
+  .explorer-header .muted { font-size: .94rem; max-width: 37rem; }
+  .model-badge { display: inline-flex; align-items: center; gap: .5rem; padding: .45rem .7rem; flex-shrink: 0; border: 1px solid rgba(102, 224, 228, .18); border-radius: 99px; color: #a8e7ec; font-size: .7rem; }
+  .model-badge > span { width: .35rem; height: .35rem; border-radius: 50%; background: #6be2e3; }
+  .plot-meta { display: flex; justify-content: space-between; gap: 1rem; color: #9ba9be; font-size: .7rem; margin-top: 2.8rem; }
+  .formula { color: #d6dfea; margin-left: .4rem; }
+  .pulse-plot { display: block; width: 100%; height: auto; overflow: visible; margin-top: .3rem; }
+  .plot-grid { color: #a6b9d0; opacity: .1; }
+  .plot-labels { color: #8495ac; }
+  .pulse-controls { margin: .75rem 0 1.4rem; padding: 1.5rem 1.5rem 1.1rem; border: 1px solid rgba(151, 169, 209, .12); border-radius: .85rem; background: rgba(4, 12, 26, .42); }
+  .control-label { display: flex; align-items: center; justify-content: space-between; gap: 1rem; margin-bottom: .8rem; }
+  .control-label label { font-size: .84rem; color: #dce5f0; }
+  .control-label abbr { text-underline-offset: .25rem; color: #a0aeca; font-size: .75rem; margin-left: .2rem; }
+  .control-label output { font: 500 1.8rem/1 monospace; color: #c3b3ff; white-space: nowrap; }
+  .control-label output :global(span) { font-size: .88rem; color: #91a3bc; }
+  .pulse-range { appearance: none; -webkit-appearance: none; width: 100%; height: 28px; margin: .4rem 0; cursor: pointer; border-radius: 99px; background: transparent; }
+  .pulse-range::-webkit-slider-runnable-track { height: 5px; border-radius: 99px; background: linear-gradient(to right, #a898f1 0%, #a898f1 var(--range-progress), #25344c var(--range-progress), #25344c 100%); }
+  .pulse-range::-moz-range-track { height: 5px; border-radius: 99px; background: linear-gradient(to right, #a898f1 0%, #a898f1 var(--range-progress), #25344c var(--range-progress), #25344c 100%); }
+  .pulse-range::-webkit-slider-thumb { appearance: none; width: 19px; height: 19px; margin-top: -7px; border: 4px solid #d9cffc; border-radius: 50%; background: #7160b5; box-shadow: 0 0 0 5px rgba(163, 145, 233, .13); }
+  .pulse-range::-moz-range-thumb { width: 11px; height: 11px; border: 4px solid #d9cffc; border-radius: 50%; background: #7160b5; box-shadow: 0 0 0 5px rgba(163, 145, 233, .13); }
+  .pulse-range:focus-visible { outline: 2px solid #72e2ee; outline-offset: 9px; }
+  .range-limits { display: flex; justify-content: space-between; gap: 1rem; font-size: .65rem; color: #8b9db5; }
+  .pulse-help { font-size: .72rem; line-height: 1.7; color: #91a2b9; max-width: 42rem; margin: 1rem 0 0; }
+  .model-note { display: flex; align-items: flex-start; gap: .7rem; }
+  .note-mark { flex-shrink: 0; width: 1.1rem; height: 1.1rem; display: grid; place-items: center; border: 1px solid #576b86; border-radius: 50%; color: #9eabc0; font: .68rem/1 Georgia, serif; margin-top: .12rem; }
+  .model-note p { margin: 0; color: #8b9db7; font-size: .7rem; line-height: 1.8; }
+  .model-note strong { color: #b0bfd2; font-weight: 500; }
+  @media (max-width: 640px) { .explorer-header { flex-direction: column; gap: 1rem; } .explorer-header .muted { font-size: .84rem; } .plot-meta { margin-top: 2rem; font-size: .65rem; } .plot-meta > span:last-child { display: none; } .plot-labels { font-size: 22px; } .pulse-width-label { font-size: 23px; } .pulse-controls { padding: 1rem; } .control-label label { max-width: 12rem; font-size: .73rem; } .control-label abbr { display: inline-block; } .control-label output { font-size: 1.5rem; } .range-limits { font-size: .65rem; } }
+  @media (prefers-reduced-motion: reduce) { .pulse-explorer * { transition: none !important; animation: none !important; } }
+</style>

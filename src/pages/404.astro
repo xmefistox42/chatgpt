@@ -1,0 +1,14 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+import Icon from '../components/Icon.astro';
+---
+<BaseLayout title="Nie znaleziono strony" noindex>
+  <main id="main-content" class="not-found container">
+    <p class="eyebrow">404 · POZA WIDMEM</p>
+    <span class="error-code" aria-hidden="true">404<span></span></span>
+    <h1>Ta wiązka prowadzi donikąd.</h1>
+    <p>Nie znaleźliśmy tej strony. Wróć do SPEKTRUM i odkrywaj z nami świat fotoniki.</p>
+    <a href="/" class="button button-primary">Wróć na stronę główną <Icon name="arrow-right"/></a>
+  </main>
+</BaseLayout>
+<style>.not-found{text-align:center;padding-block:100px 130px}.error-code{display:block;position:relative;font:500 clamp(100px,22vw,240px)/1 var(--font-heading);color:#182942;letter-spacing:-.08em}.error-code span{position:absolute;top:52%;left:10%;width:80%;height:2px;background:linear-gradient(90deg,transparent,#6dd8ff,#b19bff,transparent);box-shadow:0 0 28px #61cfff}.not-found h1{font-size:clamp(28px,4vw,48px);margin:30px 0 16px}.not-found>p:not(.eyebrow){color:var(--muted);max-width:480px;margin:0 auto 32px}</style>
