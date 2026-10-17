@@ -50,4 +50,5 @@ sieciowej; ustawienia trzeba przejrzeć, zapisać i opublikować w interfejsie
 potwierdzenia przed publikacją. Nie podano nieznanego adresu koła, parametrów
 konkretnego lasera, fikcyjnych osób, wydarzeń, wyników ani fotografii.
 
-Nie wykonano wdrożenia na Vercel ani wysyłki do GitHuba.
+Kod źródłowy jest dostępny w repozytorium `xmefistox42/chatgpt`, w gałęzi `main`.
+Nie wykonano wdrożenia strony na Vercel.

@@ -107,8 +107,8 @@ ilustracja edukacyjna, nie pomiar ani symulacja konkretnego urządzenia.
 
 ## Wdrożenie na Vercel
 
-1. Umieść projekt w repozytorium GitHub. Ten checkout ma skonfigurowany origin
-   `xmefistox42/chatgpt`; niczego automatycznie nie wysłano do GitHuba.
+1. Kod projektu znajduje się w repozytorium GitHub
+   [xmefistox42/chatgpt](https://github.com/xmefistox42/chatgpt), w gałęzi `main`.
 2. Zaimportuj repozytorium w Vercel. Wybierz framework **Astro**, polecenie
    `npm run build`, katalog wynikowy `dist`, Node.js 24.x.
 3. Jeśli korzystasz z własnej domeny, dodaj zmienną `PUBLIC_SITE_URL`, np.
