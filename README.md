@@ -54,6 +54,7 @@ npm run dev
 | Opisy i sekcje strony głównej | `src/pages/index.astro` |
 | Projekty i aktualności | `src/content/projects/` i `src/content/news/` |
 | Skład zespołu | `src/data/team.ts` |
+| Biogram opiekuna, źródła i służbowy kontakt | `src/data/supervisor.ts` |
 | Galeria autentycznych zdjęć laboratorium | `src/data/laboratory.ts` |
 | Informacje o laserze i karta stanowiska | `src/pages/laser-femtosekundowy.astro` |
 | Kolory, fonty, odstępy i współdzielone klasy | `src/styles/global.css` |
@@ -110,6 +111,10 @@ Nie publikujemy fikcyjnych wyników, dat, parametrów ani osób.
 `/projekty/[slug]/`, `/zespol/`, `/aktualnosci/`, `/aktualnosci/[slug]/`,
 `/dolacz/`, `/kontakt/` oraz `404.html`.
 
+Profil opiekuna: `/zespol/andrzej-ziolkowski/`. Zawiera drogę naukową, obszary
+badań, współpracę opisaną w biogramie, działalność akademicką i służbowy kontakt.
+Źródła oraz zakres weryfikacji opisuje `docs/ZRODLA_OPIEKUNA.md`.
+
 Model impulsu przedstawia unormowaną gaussowską obwiednię **natężenia**:
 `I/Imax = exp[-4 ln(2) (t/τ)²]`. Suwak ustala FWHM `τ` (20–300 fs).
 Maksimum pozostaje równe 1, zatem pole pod krzywą nie jest stałe. Jest to
@@ -149,14 +154,19 @@ przeglądarkowe dla pushów i pull requestów.
 
 ## Źródła i weryfikacja
 
-Informacje organizacyjne pochodzą z przekazanego zlecenia. Oficjalne odnośniki:
+Informacje o kole i opiekunie potwierdzono 19.10.2026 na oficjalnych stronach ZUT.
+Główne odnośniki:
 
 - https://we.zut.edu.pl/o-wydziale/samorzad-i-kola-naukowe.html
 - https://foton.zut.edu.pl/
 - https://www.zut.edu.pl/
+- https://we.zut.edu.pl/we-aktualnosci/article/habilitacja-dr-inz-andrzeja-ziolkowskiego.html
 
-Podczas wykonania dostęp do tych stron blokował proxy środowiska (403), dlatego
-nie deklarujemy niezależnej weryfikacji ich aktualnej treści. Przed publikacją
-potwierdź nazwę jednostki, opiekuna i opis dostępnego systemu na stronach ZUT.
+We wcześniejszym etapie środowisko blokowało te domeny. W aktualizacji profilu
+uzyskano dostęp do `we.zut.edu.pl` i `www.zut.edu.pl` oraz zweryfikowano siedem
+stron źródłowych. Biogram z 2023 r. stanowi źródło historii i obszarów badań;
+aktualne strony katedry i koła potwierdzają stanowisko, afiliację i opiekę.
+Nie zastępuj datowanego biogramu bieżącymi statystykami dorobku bez nowej
+weryfikacji. Służbowy adres opiekuna jest opisany osobno od adresu samego koła.
 Materiały z ZIP wykorzystano jako dostarczoną identyfikację wizualną, bez
 kopiowania fotografii z serwisów uczelni.

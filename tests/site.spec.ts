@@ -12,6 +12,7 @@ const routes = [
   '/projekty/wiazki-airyego-w-krysztale-sbn/',
   '/aktualnosci/',
   '/zespol/',
+  '/zespol/andrzej-ziolkowski/',
   '/dolacz/',
   '/kontakt/',
 ];
@@ -104,6 +105,26 @@ for (const route of routes) {
     }
   });
 }
+
+test('supervisor profile is linked from the team and exposes verified academic information', async ({ page }) => {
+  await page.goto('/zespol/');
+  await page.getByRole('link', { name: 'Poznaj opiekuna' }).click();
+  await expect(page).toHaveURL(/\/zespol\/andrzej-ziolkowski\/$/);
+  await expect(page.getByRole('heading', { level: 1 })).toHaveText('Andrzej Ziółkowski.');
+  await expect(page.getByRole('heading', { name: 'Doktorat z wyróżnieniem' })).toBeVisible();
+  await expect(page.locator('time[datetime="2023-11-09"]')).toHaveText('9 listopada 2023');
+  const sources = page.locator('#zrodla .sources-list a');
+  await expect(sources).toHaveCount(7);
+  const sourceHosts = await sources.evaluateAll(links => links.map(link => new URL((link as HTMLAnchorElement).href).hostname));
+  expect(sourceHosts.every(host => ['we.zut.edu.pl', 'www.zut.edu.pl'].includes(host))).toBe(true);
+  const contact = page.locator('#kontakt');
+  await expect(contact.getByRole('link', { name: 'Andrzej.Ziolkowski@zut.edu.pl' })).toHaveAttribute('href', 'mailto:Andrzej.Ziolkowski@zut.edu.pl');
+  await expect(contact.getByRole('link', { name: '+48 91 449 51 03' })).toHaveAttribute('href', 'tel:+48914495103');
+  const structured = JSON.parse((await page.locator('script[type="application/ld+json"]').textContent())!);
+  expect(structured['@type']).toBe('Person');
+  expect(structured.name).toBe('Andrzej Ziółkowski');
+  expect(structured.email).toBe('Andrzej.Ziolkowski@zut.edu.pl');
+});
 
 test('project cards lead to sourced research descriptions and retain their publication stage', async ({ page }) => {
   await page.goto('/');

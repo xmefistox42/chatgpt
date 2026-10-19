@@ -1,4 +1,5 @@
 import { site } from './site';
+import { supervisorProfile } from './supervisor';
 
 export interface TeamMember {
   name: string;
@@ -12,7 +13,8 @@ export const supervisor: TeamMember = {
   name: site.supervisor,
   role: 'Opiekun naukowy koła',
   description:
-    'Opiekun naukowy Studenckiego Koła Naukowego SPEKTRUM przy Wydziale Elektrycznym Zachodniopomorskiego Uniwersytetu Technologicznego w Szczecinie.',
+    'Badacz optyki nieliniowej, materiałów fotorefrakcyjnych i numerycznego opisu propagacji światła. Profesor ZUT w Katedrze Telekomunikacji i Fotoniki oraz opiekun naukowy SPEKTRUM.',
+  profileUrl: supervisorProfile.href,
 };
 
 // Dodaj wyłącznie potwierdzone dane członków i zdjęcia z uzyskaną zgodą na publikację.

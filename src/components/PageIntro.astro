@@ -1,9 +1,9 @@
 ---
-interface Props { eyebrow: string; title: string; description: string; }
-const { eyebrow, title, description } = Astro.props;
+interface Props { eyebrow: string; title: string; description: string; parent?: { href: string; label: string }; }
+const { eyebrow, title, description, parent } = Astro.props;
 ---
 <header class="page-intro container">
-  <nav aria-label="Okruszki" class="breadcrumbs"><a href="/">SPEKTRUM</a><span aria-hidden="true">/</span><span aria-current="page">{eyebrow}</span></nav>
+  <nav aria-label="Okruszki" class="breadcrumbs"><a href="/">SPEKTRUM</a><span aria-hidden="true">/</span>{parent && <><a href={parent.href}>{parent.label}</a><span aria-hidden="true">/</span></>}<span aria-current="page">{eyebrow}</span></nav>
   <p class="eyebrow"><span class="eyebrow-line"></span>{eyebrow}</p>
   <h1>{title}</h1>
   <p class="page-description">{description}</p>

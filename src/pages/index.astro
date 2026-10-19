@@ -3,6 +3,7 @@ import BaseLayout from '../layouts/BaseLayout.astro';
 import Icon from '../components/Icon.astro';
 import OpticalBench from '../components/OpticalBench.astro';
 import ProjectCard from '../components/ProjectCard.astro';
+import { supervisor } from '../data/team';
 import { site } from '../data/site';
 import { getCollection } from 'astro:content';
 const projects = (await getCollection('projects', ({ data }) => data.published)).sort((a,b) => b.data.date.valueOf()-a.data.date.valueOf()).slice(0,2);
@@ -65,7 +66,7 @@ const fields = [
       </section>
     </div></section>
 
-    <section class="section container team-section" aria-labelledby="team-heading"><div><p class="eyebrow">07 / LUDZIE SPEKTRUM</p><h2 id="team-heading">Nauka zaczyna się<br/>od <span class="soft">ludzi.</span></h2></div><div class="team-description"><p class="muted">Łączy nas ciekawość fotoniki i chęć zrozumienia, jak działa światło. Merytoryczne wsparcie zapewnia opiekun naukowy koła.</p><div class="supervisor-mini"><span aria-hidden="true">AZ</span><div><p>{site.supervisor}</p><small>Opiekun naukowy SPEKTRUM</small></div></div><a href="/zespol/" class="text-link">Poznaj nasz zespół <Icon name="arrow-up-right" size={17}/></a></div></section>
+    <section class="section container team-section" aria-labelledby="team-heading"><div><p class="eyebrow">07 / LUDZIE SPEKTRUM</p><h2 id="team-heading">Nauka zaczyna się<br/>od <span class="soft">ludzi.</span></h2></div><div class="team-description"><p class="muted">Łączy nas ciekawość fotoniki i chęć zrozumienia, jak działa światło. Opiekun naszego koła bada optykę nieliniową i materiały fotorefrakcyjne, łącząc teorię z eksperymentem.</p><div class="supervisor-mini"><span aria-hidden="true">AZ</span><div><p><a href={supervisor.profileUrl}>{supervisor.name}</a></p><small>Opiekun naukowy SPEKTRUM</small></div></div><div class="team-profile-links"><a href={supervisor.profileUrl} class="text-link">Poznaj opiekuna <Icon name="arrow-up-right" size={17}/></a><a href="/zespol/" class="text-link">Nasz zespół <Icon name="arrow-right" size={17}/></a></div></div></section>
 
     <section class="join-section" aria-labelledby="join-heading"><div class="container join-inner"><div class="join-orbit" aria-hidden="true"></div><p class="eyebrow">08 / TWÓJ KOLEJNY KROK</p><h2 id="join-heading">Masz w sobie<br/><span>iskrę ciekawości?</span></h2><p>Nie musisz znać wszystkich odpowiedzi.<br/>Wystarczy, że chcesz zadawać pytania.</p><a href="/dolacz/" class="button button-primary">Dołącz do SPEKTRUM <Icon name="arrow-up-right" size={18}/></a><a href="/kontakt/" class="join-contact">Chcesz nas poznać? Przejdź do kontaktu <span aria-hidden="true">↗</span></a></div></section>
   </main>
@@ -80,4 +81,5 @@ const fields = [
   @media(prefers-reduced-motion:reduce){.pulse-line{stroke-dashoffset:0}}
   @media(max-width:359px){.area-grid{grid-template-columns:1fr}.area-card h3{min-height:0}.area-icon{height:75px}.area-card:nth-child(n+3){border-bottom:1px solid var(--line)}.area-card:last-child{border-bottom:0}}
   .projects-home-heading{margin-bottom:36px}.projects-home-heading h2{font-size:clamp(28px,3.3vw,42px)}.projects-home-grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:24px}.home-news-row{display:grid;grid-template-columns:1fr 1fr;gap:60px;border-top:1px solid var(--line);padding-top:56px;margin-top:56px}.home-news-row h2{font-size:30px}.home-news-row>.eyebrow{font-size:9px}.home-news-empty h3{font-size:22px;margin-bottom:15px}.home-news-empty p{color:var(--muted);font-size:13px;line-height:1.9;margin-bottom:10px}.home-news-empty .text-link{font-size:12px}@media(max-width:700px){.projects-home-grid,.home-news-row{grid-template-columns:1fr}.projects-home-heading{align-items:flex-start;gap:20px;flex-direction:column}.projects-home-heading .text-link{font-size:12px}.home-news-row{gap:22px;margin-top:42px;padding-top:42px}.home-news-row h2{font-size:28px}}
+  .team-profile-links{display:flex;flex-wrap:wrap;gap:10px 30px}
 </style>

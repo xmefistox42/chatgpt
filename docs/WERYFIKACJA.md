@@ -1,5 +1,20 @@
 # Weryfikacja pierwszej wersji
 
+## Profil opiekuna — 19.10.2026
+
+- Dodano `/zespol/andrzej-ziolkowski/` oraz wejścia ze strony głównej, zespołu
+  i kontaktu. Fakty pochodzą z siedmiu odczytanych oficjalnych stron ZUT;
+  źródła, daty i granice interpretacji zawiera `docs/ZRODLA_OPIEKUNA.md`.
+- `npm run check`: 0 błędów, ostrzeżeń i podpowiedzi.
+- `npm run build`: powodzenie; 13 stron HTML (12 publicznych widoków i 404).
+- `npm run test:e2e`: 36 testów zaliczonych, 2 kontrole mobilne pominięte
+  wyłącznie na desktopie, 0 niepowodzeń.
+- Nowy profil przeszedł testy linków, axe, klawiatury i szerokości 320 px.
+  Sprawdzono przejście z zespołu, nadanie habilitacji, źródła uczelniane,
+  odnośniki mailto/tel oraz dane strukturalne Person.
+- Opis historii z biogramu z 2023 r. oddzielono od bieżącej afiliacji i danych
+  kontaktowych. Bieżący katalog katedry potwierdza stanowisko profesora ZUT.
+
 ## Aktualizacja projektów — 19.10.2026
 
 - Dodano dwie publiczne podstrony projektów, karty na stronie głównej i listę
