@@ -7,7 +7,13 @@ export const site = {
   laboratory: 'Laboratorium Technologii Teleinformatycznych i Fotoniki',
   supervisor: 'dr hab. inż. Andrzej Ziółkowski, prof. ZUT',
   description: 'Przekraczamy granice światła. Poznaj fotonikę, lasery i ultrakrótkie impulsy ze Studenckim Kołem Naukowym SPEKTRUM na ZUT w Szczecinie.',
-  brand: { logo: '/brand/logo-spektrum.webp', png: '/brand/logo-spektrum.png', width: 1254, height: 1254 },
+  brand: {
+    logo: '/brand/logo-spektrum-2026.webp',
+    png: '/brand/logo-spektrum-2026.png',
+    alt: 'Logo SPEKTRUM z soczewką oraz czerwonym i niebieskim światłem',
+    width: 1254,
+    height: 1254,
+  },
   links: {
     university: 'https://www.zut.edu.pl/',
     faculty: 'https://we.zut.edu.pl/o-wydziale/samorzad-i-kola-naukowe.html',

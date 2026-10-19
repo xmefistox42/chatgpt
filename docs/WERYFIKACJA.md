@@ -1,5 +1,19 @@
 # Weryfikacja pierwszej wersji
 
+## Nowe logo — 19.10.2026
+
+- Podmieniono główne logo, ikonę karty i obraz Open Graph na grafikę
+  z przesłanego ZIP-a. Opis alternatywny odpowiada nowej grafice.
+- PNG zachowano bez zmian; WebP ma 143 958 B zamiast 1 811 754 B.
+  Nowe nazwy plików zapobiegają użyciu starego logo z pamięci przeglądarki.
+- `npm run check`: 0 błędów, ostrzeżeń i podpowiedzi. `npm run build`:
+  powodzenie; 13 stron HTML.
+- Wybrane testy Playwright: strona główna na komputerze i telefonie oraz
+  kontrola 320 px i menu w poziomie — 3 zaliczone, 1 celowo pominięty
+  na desktopie. Sprawdzono obrazy, linki, axe i brak przepełnienia.
+- Obejrzano zrzuty obu rozmiarów; logo ma poprawne proporcje. Nowe pliki
+  PNG i WebP odpowiadają HTTP 200, a ikona wskazuje nowe logo.
+
 ## Profil opiekuna — 19.10.2026
 
 - Dodano `/zespol/andrzej-ziolkowski/` oraz wejścia ze strony głównej, zespołu

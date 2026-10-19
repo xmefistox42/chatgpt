@@ -31,7 +31,7 @@ const socialImage = Astro.site ? new URL(site.brand.png, Astro.site).href : unde
     <meta property="og:description" content={description} />
     {canonical && <meta property="og:url" content={canonical} />}
     {socialImage && <meta property="og:image" content={socialImage} />}
-    {socialImage && <meta property="og:image:alt" content="Logo SPEKTRUM z motywem impulsu, soczewki i widma światła" />}
+    {socialImage && <meta property="og:image:alt" content={site.brand.alt} />}
     <meta name="twitter:card" content="summary_large_image" />
     <slot name="head" />
   </head>

@@ -88,9 +88,14 @@ wyłącznie zdjęcia ze zgodą i ustalonym autorstwem. Puste galerie pokazują j
 miejsca na materiał; grafiki poglądowe nie udają zdjęć aparatury.
 
 Aby zmienić logo, dodaj nowy plik w `public/brand/` i zmień `site.brand.logo`,
-`site.brand.png` oraz wymiary w `src/data/site.ts`. Wersja WebP służy do
-wyświetlania, PNG do udostępniania. Mała nawigacja pozostaje czytelnym napisem.
+`site.brand.png`, opis `site.brand.alt` oraz wymiary w `src/data/site.ts`.
+Wersja WebP służy do wyświetlania, PNG do udostępniania.
+Mała nawigacja pozostaje czytelnym napisem.
 Alternatywy z paczki zachowano w `public/brand/alternatywy/`. Nie użyto logo ZUT.
+
+Aktualne logo to przekazana 19.10.2026 grafika z czerwonym i niebieskim światłem.
+Oryginał zachowano jako `public/brand/logo-spektrum-2026.png`; wersja WebP
+jest lżejszą kopią do wyświetlania na stronie.
 
 ### Kontakt i informacje do zatwierdzenia
 
