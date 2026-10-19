@@ -8,6 +8,8 @@ const routes = [
   '/laser-femtosekundowy/',
   '/laboratorium/',
   '/projekty/',
+  '/projekty/laserowe-sterowanie-wyladowaniem/',
+  '/projekty/wiazki-airyego-w-krysztale-sbn/',
   '/aktualnosci/',
   '/zespol/',
   '/dolacz/',
@@ -102,6 +104,22 @@ for (const route of routes) {
     }
   });
 }
+
+test('project cards lead to sourced research descriptions and retain their publication stage', async ({ page }) => {
+  await page.goto('/');
+  await page.getByRole('heading', { name: 'Laserowe sterowanie wyładowaniem atmosferycznym' }).getByRole('link').click();
+  await expect(page).toHaveURL(/\/projekty\/laserowe-sterowanie-wyladowaniem\/$/);
+  await expect(page.getByRole('heading', { name: 'Aktualny etap: model przed walidacją' })).toBeVisible();
+  await expect(page.locator('.prose')).toContainText('stan na 18 października 2026 r.');
+  await expect(page.locator('.detail-figure figcaption')).toContainText('Nie jest fotografią eksperymentu');
+  await expect(page.locator('.detail-figure img')).toHaveAttribute('src', /\.webp/);
+  await page.goto('/projekty/');
+  await page.getByRole('heading', { name: 'Wiązki Airy’ego w krysztale SBN' }).getByRole('link').click();
+  await expect(page).toHaveURL(/\/projekty\/wiazki-airyego-w-krysztale-sbn\/$/);
+  await expect(page.getByRole('heading', { name: 'Aktualny etap: projekt układu i plan badań' })).toBeVisible();
+  await expect(page.locator('.prose')).toContainText('Nie zawiera wyników pomiarów');
+  await expect(page.getByRole('main').locator('.project-meta .tag')).toHaveText('Planowany');
+});
 
 test('404 page and an unknown address provide a useful recovery path', async ({ page }) => {
   for (const { route, status } of [{ route: '/404.html', status: 200 }, { route: '/strona-ktora-nie-istnieje/', status: 404 }]) {

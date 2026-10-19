@@ -59,17 +59,25 @@ npm run dev
 | Kolory, fonty, odstępy i współdzielone klasy | `src/styles/global.css` |
 | Nawigacja | `src/data/site.ts` i `src/components/Header.astro` |
 
-### Pierwszy projekt lub aktualność
+### Dodawanie projektu lub aktualności
 
 Otwórz [instrukcję redakcyjną](docs/TRESCI.md), skopiuj odpowiedni szablon do
 nowego pliku `.md`, uzupełnij go rzeczywistymi danymi i ustaw `published: true`.
 Nazwa pliku stanie się końcówką adresu. Uruchom `npm run check`, `npm run build`
 i obejrzyj wpis przed publikacją. Nie trzeba zmieniać komponentów strony.
 
-Kolekcje są celowo puste. Obecne ostrzeżenia Astro „No files found” oraz
-„collection … is empty” oznaczają brak wpisów, a nie błąd instalacji.
-Trasy `/projekty/[slug]/` i `/aktualnosci/[slug]/` powstają po dodaniu
-opublikowanego wpisu. Szkice nie pojawiają się na listach ani w wynikowym HTML.
+Opublikowano dwa projekty na podstawie dostarczonych materiałów:
+laserowe sterowanie wyładowaniem atmosferycznym oraz wiązki Airy’ego w SBN.
+Daty wpisów oznaczają publikację opisu, nie rozpoczęcie badań.
+Aktualności pozostają puste; ostrzeżenia Astro o pustej kolekcji `news`
+oznaczają brak wpisów, a nie błąd instalacji. Trasy szczegółowe powstają dla
+opublikowanych wpisów. Szkice nie pojawiają się na listach ani w wynikowym HTML.
+
+Obrazy projektów umieszczaj w `src/assets/projects/` i wskaż je w polu `image`
+ścieżką względną z pliku Markdown, np. `../../assets/projects/nazwa.png`.
+Astro tworzy responsywne wersje WebP grafik rastrowych; SVG jest wyświetlane
+bez rasteryzacji. Dodaj `imageAlt` oraz podpis `imageCaption`, szczególnie gdy
+grafika przedstawia schemat lub wizualizację koncepcyjną.
 
 ### Zdjęcia i logo
 
@@ -90,8 +98,10 @@ Oficjalny adres koła nie został podany. Po zatwierdzeniu wpisz go w
 Nie ma formularza wymagającego serwera. Kontakt może działać przez pocztę
 użytkownika po dodaniu adresu.
 
-Skład koła, fotografie, model i parametry aparatury oraz projekty i aktualności
-wymagają rzeczywistych materiałów. Miejsca do uzupełnienia są opisane na stronie.
+Skład koła, fotografie, model i parametry aparatury oraz aktualności
+wymagają rzeczywistych materiałów. Opisy dwóch projektów bazują na prezentacji
+i PDF-ie przekazanych przez koło; rozróżniają plan badań i etap przed walidacją.
+Miejsca do uzupełnienia są opisane na stronie.
 Nie publikujemy fikcyjnych wyników, dat, parametrów ani osób.
 
 ## Podstrony

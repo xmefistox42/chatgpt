@@ -12,14 +12,16 @@ const sharedFields = {
   imageAlt: z.string().trim().min(1).optional(),
 };
 
-const imageHasDescription = (entry: { image?: string; imageAlt?: string }) =>
+const imageHasDescription = (entry: { image?: unknown; imageAlt?: string }) =>
   Boolean(entry.image) === Boolean(entry.imageAlt);
 
 const projects = defineCollection({
   loader: glob({ pattern: '*.md', base: './src/content/projects' }),
-  schema: z
+  schema: ({ image }) => z
     .object({
       ...sharedFields,
+      image: image().optional(),
+      imageCaption: z.string().trim().min(1).optional(),
       status: z.enum(['planowany', 'w-trakcie', 'zakonczony']),
     })
     .refine(imageHasDescription, {

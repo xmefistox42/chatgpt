@@ -1,0 +1,27 @@
+---
+import { Image } from 'astro:assets';
+import type { CollectionEntry } from 'astro:content';
+import Icon from './Icon.astro';
+interface Props { project: CollectionEntry<'projects'>; headingLevel?: 2 | 3; }
+const { project, headingLevel = 2 } = Astro.props;
+const Heading = headingLevel === 2 ? 'h2' : 'h3';
+const statusLabels = { planowany: 'Planowany', 'w-trakcie': 'W trakcie', zakonczony: 'Zakończony' };
+---
+<article class="project-card panel">
+  {project.data.image && <figure class="project-cover">
+    {project.data.image.format === 'svg'
+      ? <img src={project.data.image.src} alt={project.data.imageAlt!} width={project.data.image.width} height={project.data.image.height} loading="lazy" class="project-image" />
+      : <Image src={project.data.image} alt={project.data.imageAlt!} widths={[480, 800, 1120]} sizes="(max-width: 700px) 100vw, 50vw" width={1120} format="webp" quality={82} loading="lazy" class="project-image" />}
+    {project.data.imageCaption && <figcaption>{project.data.imageCaption}</figcaption>}
+  </figure>}
+  <div class="project-body">
+    <span class="tag">{statusLabels[project.data.status]}</span>
+    <Heading><a href={`/projekty/${project.id}/`}>{project.data.title}</a></Heading>
+    <p class="muted">{project.data.description}</p>
+    {project.data.tags.length > 0 && <ul class="tags" aria-label="Tematy projektu">{project.data.tags.map(tag => <li class="tag">{tag}</li>)}</ul>}
+    <a class="text-link" href={`/projekty/${project.id}/`}>Poznaj projekt <Icon name="arrow-up-right" /><span class="sr-only">: {project.data.title}</span></a>
+  </div>
+</article>
+<style>
+  .project-card{display:flex;flex-direction:column;overflow:hidden;min-width:0;background:#0d182b}.project-cover{margin:0}.project-image{width:100%;height:auto;aspect-ratio:1672/941;object-fit:cover;background:#0a1428}.project-cover figcaption{padding:14px 24px;border-bottom:1px solid var(--line);color:#a9b6cb;font-size:10px;line-height:1.8}.project-body{display:flex;flex-direction:column;align-items:flex-start;gap:16px;padding:28px;flex:1}.project-body h2,.project-body h3{font-size:clamp(24px,2.1vw,30px);margin:0;line-height:1.25}.project-body p{font-size:13px;line-height:1.9;margin:0}.tags{display:flex;flex-wrap:wrap;gap:6px;padding:0;margin:0;list-style:none}.tags .tag{font-size:10px}.project-body>.text-link{margin-top:auto;padding-top:8px;font-size:12px}@media(max-width:639px){.project-body{padding:22px;gap:14px}.project-cover figcaption{padding:12px 22px;font-size:10px}.project-body h2,.project-body h3{font-size:24px}}
+</style>

@@ -1,0 +1,42 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1600" height="900" viewBox="0 0 1600 900" fill="none">
+  <title>Wiązki Airy’ego w SBN — schemat planowanego toru optycznego</title>
+  <desc>Laser Verdi V18, płytka półfalowa i PBS, filtr przestrzenny, formowanie wiązki Airy’ego oraz kryształ SBN. Schemat koncepcyjny, nie fotografia stanowiska.</desc>
+  <defs>
+    <linearGradient id="background" x2="1600" y2="900" gradientUnits="userSpaceOnUse"><stop stop-color="#0a1428"/><stop offset="1" stop-color="#151e3b"/></linearGradient>
+    <linearGradient id="beam" x1="140" y1="445" x2="1460" y2="445" gradientUnits="userSpaceOnUse"><stop stop-color="#75d9ed"/><stop offset=".55" stop-color="#91b5ff"/><stop offset="1" stop-color="#bca6ff"/></linearGradient>
+    <pattern id="grid" width="44" height="44" patternUnits="userSpaceOnUse"><circle cx="1" cy="1" r="1" fill="#516384" fill-opacity=".3"/></pattern>
+  </defs>
+  <path fill="url(#background)" d="M0 0h1600v900H0z"/>
+  <path fill="url(#grid)" d="M0 190h1600v570H0z"/>
+  <g font-family="sans-serif">
+    <text x="100" y="112" fill="#91dcea" font-size="21" letter-spacing="5">WIĄZKI STRUKTURYZOWANE</text>
+    <text x="100" y="192" fill="#eef3ff" font-size="58" letter-spacing="-2">Wiązki Airy’ego w krysztale SBN</text>
+    <text x="100" y="238" fill="#a4b4cd" font-size="24">Od przygotowania światła do oddziaływania z materiałem fotorefrakcyjnym.</text>
+    <path d="M168 445h1260" stroke="url(#beam)" stroke-width="16" opacity=".08"/>
+    <path d="M168 445h1260" stroke="url(#beam)" stroke-width="3"/>
+    <g stroke="#4b6083" fill="#111f36">
+      <rect x="110" y="380" width="170" height="130" rx="7"/>
+      <rect x="390" y="380" width="170" height="130" rx="7"/>
+      <rect x="670" y="380" width="170" height="130" rx="7"/>
+      <rect x="950" y="380" width="170" height="130" rx="7"/>
+      <rect x="1230" y="380" width="170" height="130" rx="7"/>
+    </g>
+    <g stroke="#90d6ef" stroke-width="3">
+      <path d="M145 445h100m-69-18 32 36m-32 0 32-36"/>
+      <path d="M438 407v76m25-76v76m21-57 28 38m-28 0 28-38"/>
+      <path d="M708 407c-16 22-16 54 0 76 16-22 16-54 0-76Zm45 8v60m48-68c-16 22-16 54 0 76 16-22 16-54 0-76Z"/>
+      <path d="M990 412v66m17-66v66m17-66v66m17-66v66m17-66v66m17-66v66"/>
+      <path d="m1315 406 36 39-36 39-36-39 36-39Zm-36 39h72m-36-39v78" stroke="#b8a5f4"/>
+    </g>
+    <g fill="#91a5c5" font-size="17" letter-spacing="4">
+      <text x="110" y="348">01</text><text x="390" y="348">02</text><text x="670" y="348">03</text><text x="950" y="348">04</text><text x="1230" y="348">05</text>
+    </g>
+    <g fill="#edf2ff" font-size="24" text-anchor="middle">
+      <text x="195" y="562">Verdi V18</text><text x="475" y="562">λ/2 + PBS</text><text x="755" y="562">Filtr przestrzenny</text><text x="1035" y="562">Formowanie Airy</text><text x="1315" y="562">Kryształ SBN</text>
+    </g>
+    <path d="M100 686h1400" stroke="#354663"/>
+    <text x="100" y="738" fill="#b4c6df" font-size="21">PLAN BADAŃ</text>
+    <text x="100" y="782" fill="#9eafc9" font-size="23">Formowanie · propagacja · apodyzacja Gaussa · zewnętrzne pole polaryzacji</text>
+    <text x="100" y="849" fill="#9eafc9" font-size="17" letter-spacing="1">SCHEMAT POGLĄDOWY PLANOWANEGO UKŁADU · NIE JEST ZDJĘCIEM ANI WYNIKIEM POMIARU</text>
+  </g>
+</svg>

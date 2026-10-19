@@ -4,8 +4,9 @@ Strona używa Astro Content Collections. Definicje i walidacja pól znajdują si
 w `src/content.config.ts`. Treść wpisu to Markdown, a metadane znajdują się
 w nagłówku YAML pomiędzy liniami `---`.
 
-Repozytorium startuje z pustymi kolekcjami. Nie publikujemy przykładowych
-projektów, wydarzeń, dat ani wyników jako informacji o działalności koła.
+Kolekcja projektów zawiera dwa opisy opracowane na podstawie dostarczonej
+prezentacji i PDF-u. Aktualności pozostają puste. Nie publikujemy przykładowych
+wydarzeń, dat badań ani wyników jako informacji o działalności koła.
 Poniższe szablony są szkicami do uzupełnienia prawdziwymi danymi.
 
 ## Pliki i adresy
@@ -25,15 +26,19 @@ Poniższe szablony są szkicami do uzupełnienia prawdziwymi danymi.
 | `title` | Tak | Niepusty tytuł wpisu. |
 | `description` | Tak | Niepusty skrót na liście i opis SEO. |
 | `published` | Nie | `true` publikuje wpis; domyślnie `false`. |
-| `date` | Tak | Rzeczywista data w formacie `RRRR-MM-DD`, zapisana w cudzysłowie. |
+| `date` | Tak | Data publikacji opisu w formacie `RRRR-MM-DD`, zapisana w cudzysłowie; nie data rozpoczęcia projektu. |
 | `tags` | Nie | Lista niepustych etykiet; domyślnie `[]`. |
-| `image` | Nie | Ścieżka do obrazu w `public`, np. `/images/nazwa.jpg`, lub adres obrazu. |
+| `image` | Nie | Projekt: ścieżka względna do pliku w `src/assets/projects/`, np. `../../assets/projects/nazwa.png`. Aktualność: ścieżka w `public` lub adres obrazu. |
 | `imageAlt` | Wraz z `image` | Opis treści obrazu dla osób korzystających z czytnika ekranu. |
+| `imageCaption` | Tylko projekt, opcjonalne | Publiczny podpis określający m.in. czy grafika jest zdjęciem, schematem czy wizualizacją. |
 | `status` | Tylko projekt | Jedna z wartości: `planowany`, `w-trakcie`, `zakonczony`. |
 
 `image` i `imageAlt` należy dodać razem albo pominąć oba pola. Nie zapisuj
 alternatywnego opisu jako pustego tekstu. Obraz musi być własny lub używany
 zgodnie z licencją; przed publikacją sprawdź, czy faktycznie się ładuje.
+Grafiki rastrowe projektów są automatycznie optymalizowane do responsywnych
+wersji WebP. Grafiki SVG są wyświetlane w oryginalnej formie. Stan badań
+z datą źródłową podawaj osobno w treści, aby nie mylić go z datą publikacji wpisu.
 
 Listy pokazują wyłącznie wpisy z `published: true`, od najnowszych do
 najstarszych. Strony szczegółowe powstają wyłącznie dla opublikowanych wpisów.

@@ -1,5 +1,6 @@
 ---
 import { getCollection, render, type CollectionEntry } from 'astro:content';
+import { Image } from 'astro:assets';
 import BaseLayout from '../../layouts/BaseLayout.astro';
 import PageIntro from '../../components/PageIntro.astro';
 import Icon from '../../components/Icon.astro';
@@ -34,9 +35,12 @@ const date = new Intl.DateTimeFormat('pl-PL', { dateStyle: 'long', timeZone: 'UT
         <a class="text-link back-link" href="/projekty/"><Icon name="arrow-right" /> Wszystkie projekty</a>
         <div class="project-meta">
           <span class="tag">{statusLabels[project.data.status]}</span>
-          <time datetime={project.data.date.toISOString()}>{date}</time>
+          <span class="publication-date">Opublikowano <time datetime={project.data.date.toISOString()}>{date}</time></span>
         </div>
-        {project.data.image && <img class="detail-image" src={project.data.image} alt={project.data.imageAlt!} width="1200" height="750" />}
+        {project.data.image && <figure class="detail-figure">{project.data.image.format === 'svg'
+          ? <img class="detail-image" src={project.data.image.src} alt={project.data.imageAlt!} width={project.data.image.width} height={project.data.image.height} />
+          : <Image class="detail-image" src={project.data.image} alt={project.data.imageAlt!} widths={[640, 960, 1280, 1600]} sizes="(max-width: 1000px) 100vw, 928px" width={1600} format="webp" quality={85} />}
+          {project.data.imageCaption && <figcaption>{project.data.imageCaption}</figcaption>}</figure>}
         <div class="prose"><Content /></div>
         {project.data.tags.length > 0 && (
           <ul class="tags" aria-label="Tematy projektu">
@@ -59,8 +63,10 @@ const date = new Intl.DateTimeFormat('pl-PL', { dateStyle: 'long', timeZone: 'UT
   .back-link { margin-bottom: 2rem; }
   .back-link :global(svg) { transform: rotate(180deg); }
   .project-meta { display: flex; flex-wrap: wrap; align-items: center; gap: 1rem; margin-bottom: 2rem; }
-  .project-meta time { color: var(--color-muted, #a6a9b6); font-size: .9rem; }
-  .detail-image { display: block; width: 100%; height: auto; border-radius: 1rem; margin-bottom: 2.5rem; }
+  .publication-date { color: var(--color-muted, #a6a9b6); font-size: .8rem; }
+  .detail-figure { margin: 0 0 2.5rem; }
+  .detail-image { display: block; width: 100%; height: auto; border-radius: .4rem; }
+  .detail-figure figcaption { padding-top: 1rem; color: var(--muted); font-size: .75rem; line-height: 1.8; }
   .tags { display: flex; flex-wrap: wrap; gap: .5rem; margin: 2rem 0 0; padding: 0; list-style: none; }
   .project-cta { padding: clamp(1.5rem, 4vw, 2.5rem); margin-top: 3rem; }
   .project-cta h2 { margin-top: 0; font-size: 1.5rem; }

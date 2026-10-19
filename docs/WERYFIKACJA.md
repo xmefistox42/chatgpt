@@ -1,5 +1,25 @@
 # Weryfikacja pierwszej wersji
 
+## Aktualizacja projektów — 19.10.2026
+
+- Dodano dwie publiczne podstrony projektów, karty na stronie głównej i listę
+  projektów z rzeczywistymi materiałami źródłowymi.
+- Zachowano oryginał przesłanej grafiki, a Astro przygotowuje responsywne WebP.
+  Podpis rozróżnia wizualizację koncepcyjną od pomiaru i wyniku symulacji.
+- Schemat wiązek Airy’ego pozostaje SVG bez rasteryzacji i jest opisany jako
+  planowany układ. Stan obu projektów wynika z prezentacji i PDF-u.
+- `npm run check`: 0 błędów, ostrzeżeń i podpowiedzi.
+- `npm run build`: powodzenie; 12 stron HTML (11 publicznych widoków i 404).
+- `npm run test:e2e`: 32 testy zaliczone, 2 celowo pominięte na desktopie
+  (kontrole mobilne); 0 niepowodzeń. Obie nowe podstrony przeszły sprawdzanie
+  linków, obrazów, dostępności axe i szerokości 320 px.
+- Sprawdzono przejście z kart do opisów, statusy projektów, datę stanu modelu
+  oraz podpis i zoptymalizowany obraz na stronie projektu laserowego.
+
+Źródła i zakres informacji opisuje `docs/ZRODLA_PROJEKTOW.md`.
+
+## Kontrole pierwszej wersji
+
 Wykonane kontrole w środowisku Node.js 24.19.0, npm 11.9.0 i Chromium:
 
 - Czyste `npm ci` — powodzenie; suma kontrolna lockfile bez zmian.
